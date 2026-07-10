@@ -17,7 +17,7 @@ def main():
         
         state_path = os.path.join(data_dir, "healing-state.json")
         
-        decision = "stop"
+        decision = "allow"
         reason = "System conditions cleared."
         
         if os.path.exists(state_path):
@@ -47,7 +47,7 @@ def main():
         sys.stdout.flush()
     except Exception as e:
         log(f"LoopControl execution error: {str(e)}")
-        sys.stdout.write(json.dumps({"decision": "stop"}))
+        sys.stdout.write(json.dumps({"decision": "allow"}))
         sys.stdout.flush()
 
 if __name__ == "__main__":

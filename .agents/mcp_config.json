@@ -6,8 +6,8 @@
         "C:/Users/Johnny Cage/ITS/node_modules/@libsql/mcp-server/index.js"
       ],
       "env": {
-        "LIBSQL_URL": "libsql://your-database-name-username.turso.io",
-        "LIBSQL_AUTH_TOKEN": "YOUR_TURSO_JWT_AUTH_TOKEN_HERE"
+        "LIBSQL_URL": "ENV_VAR_PROJECT_TURSO_URL",
+        "LIBSQL_AUTH_TOKEN": "ENV_VAR_PROJECT_TURSO_TOKEN"
       }
     }
   }

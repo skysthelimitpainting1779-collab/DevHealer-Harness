@@ -4,5 +4,9 @@
   "args": [
     "watcher.py"
   ],
-  "restart_policy": "always"
+  "restart_policy": "always",
+  "env": {
+    "WATCH_DIRECTORY": "",
+    "POLL_INTERVAL_SECONDS": "5"
+  }
 }

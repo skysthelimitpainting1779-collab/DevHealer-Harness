@@ -1,0 +1,1211 @@
+This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching these patterns are excluded: **/.env, **/*.env.*, **/*.pem, **/*.key, **/*.cert, **/secrets/*, **/credentials.json, **/.npmrc, **/*.log
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.agents/hooks.json
+.agents/mcp_config.json
+.agents/plugin.json
+.agents/rules/development-ontology.md
+.agents/skills/heal-and-evolve/SKILL.md
+.agents/workflows/workflow-evolve-rules.md
+.agents/workflows/workflow-heal-project.md
+index.js
+README.md
+resources/ontology.ttl
+run_tests_hardened.py
+scripts/post-tool-use.py
+scripts/pre-tool-use.py
+scripts/sdk_agent_healer.py
+scripts/stop-handler.py
+setup_dev_healer_v5.py
+sidecars/watcher/sidecar.json
+sidecars/watcher/watcher.py
+test_watcher.ps1
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".agents/hooks.json">
+{
+  "PreToolUse": [
+    {
+      "command": "python",
+      "args": [
+        "scripts/pre-tool-use.py"
+      ],
+      "timeout": 30
+    }
+  ],
+  "PostToolUse": [
+    {
+      "command": "python",
+      "args": [
+        "scripts/post-tool-use.py"
+      ],
+      "timeout": 60
+    }
+  ],
+  "Stop": [
+    {
+      "command": "python",
+      "args": [
+        "scripts/stop-handler.py"
+      ],
+      "timeout": 30
+    }
+  ]
+}
+</file>
+
+<file path=".agents/mcp_config.json">
+{
+  "mcpServers": {
+    "turso-explorer": {
+      "command": "node",
+      "args": [
+        "C:/Users/Johnny Cage/ITS/node_modules/@libsql/mcp-server/index.js"
+      ],
+      "env": {
+        "LIBSQL_URL": "libsql://your-database-name-username.turso.io",
+        "LIBSQL_AUTH_TOKEN": "YOUR_TURSO_JWT_AUTH_TOKEN_HERE"
+      }
+    }
+  }
+}
+</file>
+
+<file path=".agents/plugin.json">
+{
+  "name": "antigravity-self-healer"
+}
+</file>
+
+<file path=".agents/skills/heal-and-evolve/SKILL.md">
+---
+name: heal-and-evolve
+description: Classifies and troubleshoot compile and runtime codebase anomalies. Use when analyzing test errors or resolving compilation faults.
+---
+# Heal and Evolve Skill
+Provides the diagnostic framework and decision trees required to resolve structural failures.
+
+## Diagnostic Protocol
+1. **Anomaly Classification**: Parse the logs to classify the software error:
+   - `ToolFailure`: Execution command returned a non-zero exit code.
+   - `InputCorruption`: Broken schema specifications or mismatched parameters.
+   - `ReasoningCollapse`: Runaway loop recursion or step capacity threshold reached.
+2. **Technical Sourcing**: Consult local configurations or make targeted queries using `search_web` if encountering unfamiliar dependency issues.
+3. **Remediation Strategy**: Draft the isolated repair, define verification commands, and delegate task boundaries.
+</file>
+
+<file path=".agents/workflows/workflow-evolve-rules.md">
+# Rule Evolution & Compacting Trajectory
+This workflow implements our strict code knowledge adaptation policy without breaching system file constraints.
+
+## Trajectory Sequence
+1. Analyze the successful remediation logs to isolate the root programming failure.
+2. Draft a highly specific constraint rule targeting the error class and place it in `.agents/rules/`.
+3. **Summarize-and-Compact Evolution Strategy**: If a rule file already exists, edit the file in place using the summarize-and-compact rewrite strategy. Do not blindly append logs or debugging traces.
+4. Keep all rule Markdown files strictly below the **12,000-character cap** to prevent silent platform truncation.
+</file>
+
+<file path="README.md">
+# ITS Project
+Initialized with Antigravity 2.0 Autonomic Loop.
+</file>
+
+<file path="resources/ontology.ttl">
+@prefix ag: <https://antigravity.google/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ag:Loop a owl:Class ;
+    rdfs:label "Autonomic Loop" .
+
+ag:Anomaly a owl:Class ;
+    rdfs:label "Software Anomaly" .
+
+ag:ToolFailure a owl:Class ;
+    rdfs:subClassOf ag:Anomaly ;
+    rdfs:label "Tool Execution Failure" .
+
+ag:RecoveryPlan a owl:Class ;
+    rdfs:label "Remediation Trajectory" .
+</file>
+
+<file path="run_tests_hardened.py">
+#!/usr/bin/env python
+"""
+run_tests_hardened.py
+======================
+A production-hardened test and compilation runner wrapper for Windows 10.
+Designed to prevent Windows file-locking issues ("Access is denied") during 
+automatic Git worktree deletions in Google Antigravity 2.0.
+
+This script executes your build or test commands, monitors them, and guarantees
+that all spawned child processes are recursively terminated upon completion, 
+failure, or timeout. This ensures all file handles are completely released.
+"""
+
+import os
+import sys
+import subprocess
+import time
+
+# Attempt to import psutil for robust process tree tracking
+try:
+    import psutil
+except ImportError:
+    # If psutil is not installed globally yet, attempt to install or log warning
+    psutil = None
+
+def log_to_stderr(message):
+    """
+    Redirects internal logging to stderr to maintain absolute stdout hygiene,
+    preventing malformed JSON parser stalls if this runner is executed inside a hook.
+    """
+    sys.stderr.write(f"[HARDENED-RUNNER] {message}\n")
+    sys.stderr.flush()
+
+def kill_child_processes(parent_pid):
+    """
+    Recursively locates and terminates all child processes spawned by the parent PID.
+    Releases locked file handles on Windows 10.
+    """
+    if not psutil:
+        log_to_stderr("WARNING: 'psutil' is not installed. Unable to recursively clean up child process trees.")
+        log_to_stderr("Please run: pip install psutil")
+        return
+
+    try:
+        parent = psutil.Process(parent_pid)
+        children = parent.children(recursive=True)
+        if not children:
+            return
+
+        log_to_stderr(f"Found {len(children)} active child process(es). Initiating cleanup...")
+        
+        # Phase 1: Soft terminate child processes
+        for child in children:
+            try:
+                log_to_stderr(f"Terminating child PID {child.pid} ({child.name()})")
+                child.terminate()
+            except psutil.NoSuchProcess:
+                pass
+
+        # Wait briefly for processes to shut down gracefully
+        gone, alive = psutil.wait_procs(children, timeout=3)
+        
+        # Phase 2: Force kill any stubborn survivors
+        if alive:
+            log_to_stderr(f"{len(alive)} processes survived termination. Initiating force kill...")
+            for survivor in alive:
+                try:
+                    log_to_stderr(f"Force-killing PID {survivor.pid} ({survivor.name()})")
+                    survivor.kill()
+                except psutil.NoSuchProcess:
+                    pass
+                    
+        log_to_stderr("All child processes successfully cleaned up.")
+    except Exception as e:
+        log_to_stderr(f"Error during process tree cleanup: {e}")
+
+def run_command(command_list, cwd=None, timeout=60):
+    """
+    Runs the targeted development command under strict process monitoring.
+    """
+    my_pid = os.getpid()
+    log_to_stderr(f"Starting execution of command: {' '.join(command_list)} (Parent PID: {my_pid})")
+    
+    start_time = time.time()
+    process = None
+    
+    try:
+        # Use shell=True for Windows command compatibility, but manage securely
+        process = subprocess.Popen(
+            command_list,
+            cwd=cwd,
+            stdout=sys.stdout,
+            stderr=sys.stderr,
+            shell=True
+        )
+        
+        # Monitor the process execution
+        while process.poll() is None:
+            time.sleep(0.5)
+            # Enforce execution timeout limits
+            if time.time() - start_time > timeout:
+                log_to_stderr(f"Command execution exceeded timeout of {timeout} seconds. Triggering abort...")
+                process.terminate()
+                break
+                
+        exit_code = process.returncode if process.poll() is not None else -1
+        log_to_stderr(f"Command completed with exit code: {exit_code}")
+        return exit_code
+
+    except Exception as e:
+        log_to_stderr(f"Execution failed with error: {e}")
+        return 1
+
+    finally:
+        # ABSOLUTE SAFETY GATE: Guarantee all subprocesses and children are terminated
+        log_to_stderr("Entering absolute process tree cleanup phase...")
+        kill_child_processes(my_pid)
+
+if __name__ == "__main__":
+    # If no arguments are provided, output usage details
+    if len(sys.argv) < 2:
+        log_to_stderr("Usage: python run_tests_hardened.py <command_to_run>")
+        log_to_stderr("Example: python run_tests_hardened.py npm test")
+        sys.exit(1)
+
+    # Reconstruct the command arguments
+    target_command = sys.argv[1:]
+    
+    # Run the hardened wrapper (defaults to a 60-second timeout)
+    exit_status = run_command(target_command, cwd=os.getcwd(), timeout=60)
+    sys.exit(exit_status)
+</file>
+
+<file path="scripts/post-tool-use.py">
+import sys
+import json
+import os
+
+def log(msg):
+    sys.stderr.write(f"[Sensation Log] {msg}\n")
+
+def main():
+    try:
+        input_data = json.load(sys.stdin)
+        log("Analyzing PostToolUse execution result.")
+        
+        error_msg = input_data.get("error", "")
+        
+        if error_msg:
+            log(f"Tool error intercepted: {error_msg}")
+            
+            # Resolve git-immune secure AppData path dynamically
+            data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
+            if not data_dir:
+                user_profile = os.environ.get("USERPROFILE", "C:\\Users\\Johnny Cage")
+                data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
+            
+            os.makedirs(data_dir, exist_ok=True)
+            state_path = os.path.join(data_dir, "healing-state.json")
+            
+            state = {
+                "activeAnomaly": "ToolFailure",
+                "errorDetails": error_msg,
+                "status": "active",
+                "retryCount": 0
+            }
+            
+            with open(state_path, "w") as f:
+                json.dump(state, f, indent=2)
+            log(f"Anomaly successfully registered in system cache: {state_path}")
+            
+        sys.stdout.write(json.dumps({}))
+        sys.stdout.flush()
+    except Exception as e:
+        log(f"Sensation module execution error: {str(e)}")
+        sys.stdout.write(json.dumps({}))
+        sys.stdout.flush()
+
+if __name__ == "__main__":
+    main()
+</file>
+
+<file path="scripts/pre-tool-use.py">
+import sys
+import json
+
+def log(msg):
+    sys.stderr.write(f"[Firewall Log] {msg}\n")
+
+def main():
+    try:
+        input_data = json.load(sys.stdin)
+        log("Evaluating PreToolUse safety criteria.")
+        
+        tool_call = input_data.get("toolCall", {})
+        tool_name = tool_call.get("name")
+        tool_args = tool_call.get("args", {})
+        
+        decision = "allow"
+        reason = "Command within normal operational constraints."
+        permission_overrides = []
+        
+        # Pull targets and normalize backslashes and drive letters
+        target_file = tool_args.get("TargetFile") or tool_args.get("AbsolutePath") or tool_args.get("CommandLine") or ""
+        normalized_target = target_file.replace("\\", "/").replace("\\", "/").lower()
+        
+        # Firewall matching constraints
+        if ".git/" in normalized_target or ".git\\" in target_file:
+            decision = "deny"
+            reason = "Security Gate Failure: Direct modification of .git/ folders is strictly prohibited."
+        elif "rmdir" in normalized_target or "rm -rf" in normalized_target:
+            decision = "ask"
+            reason = "Destructive recursive deletions require manual developer-in-the-loop validation."
+            permission_overrides = ["command(rmdir)", "command(rm)"]
+
+        output = {
+            "decision": decision,
+            "reason": reason,
+            "permissionOverrides": permission_overrides
+        }
+        
+        sys.stdout.write(json.dumps(output))
+        sys.stdout.flush()
+    except Exception as e:
+        log(f"Firewall execution error: {str(e)}")
+        sys.stdout.write(json.dumps({"decision": "ask", "reason": f"Firewall script error: {str(e)}"}))
+        sys.stdout.flush()
+
+if __name__ == "__main__":
+    main()
+</file>
+
+<file path="scripts/sdk_agent_healer.py">
+import asyncio
+import os
+from google.antigravity import Agent, LocalAgentConfig
+from google.antigravity.hooks.policy import deny, allow, ask_user
+
+async def main():
+    # Windows-hardened deny-by-default execution policy
+    policies = [
+        deny("*"),
+        allow("view_file"),
+        ask_user("run_command")
+    ]
+    
+    config = LocalAgentConfig()
+    async with Agent(config) as agent:
+        response = await agent.chat("Analyze our workspace rules and print our project self-healing protocol.")
+        print(await response.text())
+
+if __name__ == "__main__":
+    asyncio.run(main())
+</file>
+
+<file path="scripts/stop-handler.py">
+import sys
+import json
+import os
+
+def log(msg):
+    sys.stderr.write(f"[LoopControl Log] {msg}\n")
+
+def main():
+    try:
+        input_data = json.load(sys.stdin)
+        log("Sensing Stop checkpoint rules.")
+        
+        data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
+        if not data_dir:
+            user_profile = os.environ.get("USERPROFILE", "C:\\Users\\Johnny Cage")
+            data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
+        
+        state_path = os.path.join(data_dir, "healing-state.json")
+        
+        decision = "stop"
+        reason = "System conditions cleared."
+        
+        if os.path.exists(state_path):
+            with open(state_path, "r") as f:
+                state = json.load(f)
+            
+            if state.get("status") == "active":
+                retries = state.get("retryCount", 0)
+                if retries < 3:
+                    decision = "continue"
+                    reason = "Unresolved codebase anomaly remains. Re-entering execution trajectory via /workflow-heal-project."
+                    state["retryCount"] = retries + 1
+                    with open(state_path, "w") as f:
+                        json.dump(state, f, indent=2)
+                    log(f"Loop override engaged. Retrying build loop (Attempt {retries + 1}/3).")
+                else:
+                    state["status"] = "halted"
+                    with open(state_path, "w") as f:
+                        json.dump(state, f, indent=2)
+                    log("Maximum build retry limit (3) reached. Halting loop to protect host resources.")
+        
+        output = {
+            "decision": decision,
+            "reason": reason
+        }
+        sys.stdout.write(json.dumps(output))
+        sys.stdout.flush()
+    except Exception as e:
+        log(f"LoopControl execution error: {str(e)}")
+        sys.stdout.write(json.dumps({"decision": "stop"}))
+        sys.stdout.flush()
+
+if __name__ == "__main__":
+    main()
+</file>
+
+<file path="setup_dev_healer_v5.py">
+# -*- coding: utf-8 -*-
+"""
+Google Antigravity 2.0 - Hardened Production Setup Script (v5)
+Target Environment: Windows 10 Host (Johnny Cage / C:\\Users\\Johnny Cage\\ITS)
+Grounded on: Windows Development Environment Audit Report & Antigravity Hardening Guide
+"""
+
+import os
+import sys
+import json
+import shutil
+import platform
+import subprocess
+
+def log(msg):
+    sys.stderr.write(f"[Installer] {msg}\n")
+
+# Target Workspace Normalization
+WORKSPACE_DIR = os.getcwd()
+NORMALIZED_WORKSPACE = WORKSPACE_DIR.replace("\\", "/")
+
+def check_git_status():
+    log("Auditing Git status...")
+    is_git = False
+    try:
+        # Run standard non-blocking git check
+        result = subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], 
+                                capture_output=True, text=True, shell=True)
+        if result.returncode == 0 and "true" in result.stdout.lower():
+            is_git = True
+            log("Git repository detected. Isolated worktree mode will execute successfully.")
+        else:
+            log("WARNING: Directory is not version-controlled.")
+    except Exception as e:
+        log(f"Git execution audit failed: {str(e)}")
+    return is_git
+
+def initialize_git():
+    log("Initializing Git repository to prevent silent worktree fallback...")
+    try:
+        result = subprocess.run(["git", "init"], capture_output=True, text=True, shell=True)
+        if result.returncode == 0:
+            log("SUCCESS: Git repository initialized successfully!")
+            # Add a dummy commit so worktree operations have a head reference to branch off of
+            with open("README.md", "w") as f:
+                f.write("# ITS Project\nInitialized with Antigravity 2.0 Autonomic Loop.\n")
+            subprocess.run(["git", "add", "README.md"], shell=True)
+            subprocess.run(["git", "commit", "-m", "Initial commit from Antigravity v5 Installer"], shell=True)
+            log("SUCCESS: Created initial commit.")
+        else:
+            log(f"ERROR: Failed to initialize Git. Details: {result.stderr}")
+    except Exception as e:
+        log(f"Exception while running git init: {str(e)}")
+
+def build_scaffold():
+    log(f"Beginning directory construction under: {WORKSPACE_DIR}")
+    
+    # Define directories relative to execution root
+    dirs = [
+        ".agents",
+        ".agents/rules",
+        ".agents/workflows",
+        ".agents/skills",
+        ".agents/skills/heal-and-evolve",
+        "scripts",
+        "sidecars",
+        "sidecars/watcher",
+        "resources"
+    ]
+    
+    for d in dirs:
+        os.makedirs(os.path.join(WORKSPACE_DIR, d), exist_ok=True)
+    log("Scaffold directory structure built successfully.")
+
+def write_files():
+    # 1. plugin.json
+    plugin_data = {
+        "name": "antigravity-self-healer"
+    }
+    with open(os.path.join(WORKSPACE_DIR, ".agents", "plugin.json"), "w") as f:
+        json.dump(plugin_data, f, indent=2)
+
+    # 2. hooks.json (Flat 2.0 Event-Keyed Format, Windows Native Command Interpreter)
+    hooks_data = {
+        "PreToolUse": [
+            {
+                "command": "python",
+                "args": ["scripts/pre-tool-use.py"],
+                "timeout": 30
+            }
+        ],
+        "PostToolUse": [
+            {
+                "command": "python",
+                "args": ["scripts/post-tool-use.py"],
+                "timeout": 60
+            }
+        ],
+        "Stop": [
+            {
+                "command": "python",
+                "args": ["scripts/stop-handler.py"],
+                "timeout": 30
+            }
+        ]
+    }
+    with open(os.path.join(WORKSPACE_DIR, ".agents", "hooks.json"), "w") as f:
+        json.dump(hooks_data, f, indent=2)
+
+    # 3. mcp_config.json (Turso Integration Scaffolded with Node.js stdio Transport)
+    mcp_data = {
+        "mcpServers": {
+            "turso-explorer": {
+                "command": "node",
+                "args": [
+                    f"{NORMALIZED_WORKSPACE}/node_modules/@libsql/mcp-server/index.js"
+                ],
+                "env": {
+                    "LIBSQL_URL": "libsql://your-database-name-username.turso.io",
+                    "LIBSQL_AUTH_TOKEN": "YOUR_TURSO_JWT_AUTH_TOKEN_HERE"
+                }
+            }
+        }
+    }
+    with open(os.path.join(WORKSPACE_DIR, ".agents", "mcp_config.json"), "w") as f:
+        json.dump(mcp_data, f, indent=2)
+
+    # 4. scripts/pre-tool-use.py (Hygienic Semantic Firewall, Path-Normalization Compliant)
+    pre_tool_use_code = """import sys
+import json
+
+def log(msg):
+    sys.stderr.write(f"[Firewall Log] {msg}\\n")
+
+def main():
+    try:
+        input_data = json.load(sys.stdin)
+        log("Evaluating PreToolUse safety criteria.")
+        
+        tool_call = input_data.get("toolCall", {})
+        tool_name = tool_call.get("name")
+        tool_args = tool_call.get("args", {})
+        
+        decision = "allow"
+        reason = "Command within normal operational constraints."
+        permission_overrides = []
+        
+        # Pull targets and normalize backslashes and drive letters
+        target_file = tool_args.get("TargetFile") or tool_args.get("AbsolutePath") or tool_args.get("CommandLine") or ""
+        normalized_target = target_file.replace("\\\\", "/").replace("\\\\", "/").lower()
+        
+        # Firewall matching constraints
+        if ".git/" in normalized_target or ".git\\\\" in target_file:
+            decision = "deny"
+            reason = "Security Gate Failure: Direct modification of .git/ folders is strictly prohibited."
+        elif "rmdir" in normalized_target or "rm -rf" in normalized_target:
+            decision = "ask"
+            reason = "Destructive recursive deletions require manual developer-in-the-loop validation."
+            permission_overrides = ["command(rmdir)", "command(rm)"]
+
+        output = {
+            "decision": decision,
+            "reason": reason,
+            "permissionOverrides": permission_overrides
+        }
+        
+        sys.stdout.write(json.dumps(output))
+        sys.stdout.flush()
+    except Exception as e:
+        log(f"Firewall execution error: {str(e)}")
+        sys.stdout.write(json.dumps({"decision": "ask", "reason": f"Firewall script error: {str(e)}"}))
+        sys.stdout.flush()
+
+if __name__ == "__main__":
+    main()
+"""
+    with open(os.path.join(WORKSPACE_DIR, "scripts", "pre-tool-use.py"), "w") as f:
+        f.write(pre_tool_use_code)
+
+    # 5. scripts/post-tool-use.py (Sensation Module, State Saved under Git-Immune AppData Path)
+    post_tool_use_code = """import sys
+import json
+import os
+
+def log(msg):
+    sys.stderr.write(f"[Sensation Log] {msg}\\n")
+
+def main():
+    try:
+        input_data = json.load(sys.stdin)
+        log("Analyzing PostToolUse execution result.")
+        
+        error_msg = input_data.get("error", "")
+        
+        if error_msg:
+            log(f"Tool error intercepted: {error_msg}")
+            
+            # Resolve git-immune secure AppData path dynamically
+            data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
+            if not data_dir:
+                user_profile = os.environ.get("USERPROFILE", "C:\\\\Users\\\\Johnny Cage")
+                data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
+            
+            os.makedirs(data_dir, exist_ok=True)
+            state_path = os.path.join(data_dir, "healing-state.json")
+            
+            state = {
+                "activeAnomaly": "ToolFailure",
+                "errorDetails": error_msg,
+                "status": "active",
+                "retryCount": 0
+            }
+            
+            with open(state_path, "w") as f:
+                json.dump(state, f, indent=2)
+            log(f"Anomaly successfully registered in system cache: {state_path}")
+            
+        sys.stdout.write(json.dumps({}))
+        sys.stdout.flush()
+    except Exception as e:
+        log(f"Sensation module execution error: {str(e)}")
+        sys.stdout.write(json.dumps({}))
+        sys.stdout.flush()
+
+if __name__ == "__main__":
+    main()
+"""
+    with open(os.path.join(WORKSPACE_DIR, "scripts", "post-tool-use.py"), "w") as f:
+        f.write(post_tool_use_code)
+
+    # 6. scripts/stop-handler.py (Loop Termination Overrider, Prevent Runaway Execution Loop)
+    stop_handler_code = """import sys
+import json
+import os
+
+def log(msg):
+    sys.stderr.write(f"[LoopControl Log] {msg}\\n")
+
+def main():
+    try:
+        input_data = json.load(sys.stdin)
+        log("Sensing Stop checkpoint rules.")
+        
+        data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
+        if not data_dir:
+            user_profile = os.environ.get("USERPROFILE", "C:\\\\Users\\\\Johnny Cage")
+            data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
+        
+        state_path = os.path.join(data_dir, "healing-state.json")
+        
+        decision = "stop"
+        reason = "System conditions cleared."
+        
+        if os.path.exists(state_path):
+            with open(state_path, "r") as f:
+                state = json.load(f)
+            
+            if state.get("status") == "active":
+                retries = state.get("retryCount", 0)
+                if retries < 3:
+                    decision = "continue"
+                    reason = "Unresolved codebase anomaly remains. Re-entering execution trajectory via /workflow-heal-project."
+                    state["retryCount"] = retries + 1
+                    with open(state_path, "w") as f:
+                        json.dump(state, f, indent=2)
+                    log(f"Loop override engaged. Retrying build loop (Attempt {retries + 1}/3).")
+                else:
+                    state["status"] = "halted"
+                    with open(state_path, "w") as f:
+                        json.dump(state, f, indent=2)
+                    log("Maximum build retry limit (3) reached. Halting loop to protect host resources.")
+        
+        output = {
+            "decision": decision,
+            "reason": reason
+        }
+        sys.stdout.write(json.dumps(output))
+        sys.stdout.flush()
+    except Exception as e:
+        log(f"LoopControl execution error: {str(e)}")
+        sys.stdout.write(json.dumps({"decision": "stop"}))
+        sys.stdout.flush()
+
+if __name__ == "__main__":
+    main()
+"""
+    with open(os.path.join(WORKSPACE_DIR, "scripts", "stop-handler.py"), "w") as f:
+        f.write(stop_handler_code)
+
+    # 7. sidecars/watcher/sidecar.json
+    sidecar_json = {
+        "description": "Continuous workspace file watcher for compiling/test failures.",
+        "command": "python",
+        "args": [
+            "watcher.py"
+        ],
+        "restart_policy": "always"
+    }
+    with open(os.path.join(WORKSPACE_DIR, "sidecars", "watcher", "sidecar.json"), "w") as f:
+        json.dump(sidecar_json, f, indent=2)
+
+    # 8. sidecars/watcher/watcher.py (Continuous polling and agentapi activator)
+    watcher_code = """import os
+import time
+import subprocess
+import sys
+import json
+
+def log(msg):
+    sys.stderr.write(f"[Watcher Log] {msg}\\n")
+
+def main():
+    log("Background Watcher Sidecar initialized on Windows 10.")
+    workspace_dir = os.environ.get("WORKSPACE_DIR", "C:\\\\Users\\\\Johnny Cage\\\\ITS")
+    
+    # Watch for trigger file simulating error conditions
+    trigger_file = os.path.join(workspace_dir, "trigger_error.txt")
+    
+    while True:
+        try:
+            if os.path.exists(trigger_file):
+                log("Trigger file detected! Simulating tool compilation anomaly.")
+                
+                data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
+                if not data_dir:
+                    user_profile = os.environ.get("USERPROFILE", "C:\\\\Users\\\\Johnny Cage")
+                    data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
+                
+                os.makedirs(data_dir, exist_ok=True)
+                state_path = os.path.join(data_dir, "healing-state.json")
+                
+                state = {
+                    "activeAnomaly": "ToolFailure",
+                    "errorDetails": "Compilation failed in index.js: SyntaxError Unexpected token",
+                    "status": "active",
+                    "retryCount": 0
+                }
+                
+                with open(state_path, "w") as f:
+                    json.dump(state, f, indent=2)
+                
+                try:
+                    os.remove(trigger_file)
+                except Exception as e:
+                    log(f"Failed to remove trigger file: {str(e)}")
+                
+                log("Executing agentapi command to launch proactive conversation...")
+                try:
+                    subprocess.run(["agentapi", "new-conversation", "A background compilation error has been detected. Run: /workflow-heal-project"], shell=True)
+                except Exception as cli_err:
+                    log(f"agentapi execution error: {str(cli_err)}")
+                    
+            time.sleep(5)
+        except KeyboardInterrupt:
+            break
+        except Exception as e:
+            log(f"Error in watcher loop: {str(e)}")
+            time.sleep(5)
+
+if __name__ == "__main__":
+    main()
+"""
+    with open(os.path.join(WORKSPACE_DIR, "sidecars", "watcher", "watcher.py"), "w") as f:
+        f.write(watcher_code)
+
+    # 9. workflows/workflow-heal-project.md
+    heal_project_md = """# Proactive Project Self-Healing Trajectory
+This workflow executes sequentially when a background sidecar logs a tool execution fault or testing failure.
+
+## Trajectory Sequence
+1. Read the structured failure details from our git-immune state registry using the `view_file` tool on `healing-state.json` inside the system path mapped by `ANTIGRAVITY_EXECUTABLE_DATA_DIR`.
+2. Activate the `@heal-and-evolve` skill to run a rigorous diagnosis of the error logs and plan an isolated remediation.
+3. Spawn a dedicated helper subagent using the `invoke_subagent` tool. You must configure the subagent to run in **New Worktree Mode** to shield the active repository from broken builds.
+4. Inside the isolated background branch, direct the subagent to run edits and validation scripts (`npm run build`, `npm test`, etc.).
+5. **Critical Windows Process Cleanup**: Before exiting, the subagent must explicitly trace and terminate all child processes it spawned to free Windows file lock handles, avoiding 'Access is denied' exceptions on directory cleanup.
+6. Commit the passing build changes, merge the clean branch, reset `healing-state.json`, and run `/workflow-evolve-rules` to write hardened guidelines.
+"""
+    with open(os.path.join(WORKSPACE_DIR, ".agents", "workflows", "workflow-heal-project.md"), "w") as f:
+        f.write(heal_project_md)
+
+    # 10. workflows/workflow-evolve-rules.md
+    evolve_rules_md = """# Rule Evolution & Compacting Trajectory
+This workflow implements our strict code knowledge adaptation policy without breaching system file constraints.
+
+## Trajectory Sequence
+1. Analyze the successful remediation logs to isolate the root programming failure.
+2. Draft a highly specific constraint rule targeting the error class and place it in `.agents/rules/`.
+3. **Summarize-and-Compact Evolution Strategy**: If a rule file already exists, edit the file in place using the summarize-and-compact rewrite strategy. Do not blindly append logs or debugging traces.
+4. Keep all rule Markdown files strictly below the **12,000-character cap** to prevent silent platform truncation.
+"""
+    with open(os.path.join(WORKSPACE_DIR, ".agents", "workflows", "workflow-evolve-rules.md"), "w") as f:
+        f.write(evolve_rules_md)
+
+    # 11. rules/development-ontology.md
+    dev_ontology_md = """# Workspace Guidelines & Anomaly Ontology
+This rule is Always-On and enforces project integrity guidelines for all developer agents.
+
+## Enforced Standards
+* **Process Handle Hygiene**: All background compilers, watchers, or test runners spawned in isolated worktrees must be explicitly terminated prior to subagent shutdown to prevent Windows directory lockups (Access is denied errors).
+* **Workspace Isolation**: Multi-step codebase refactors or experimental repairs must be performed inside isolated background branches via New Worktree Mode.
+* **Pathing Normalization**: Programmatically convert all backslashes (`\\`) to forward slashes (`/`) in path strings prior to testing permissions, drive letters must be stripped during evaluation.
+* **Character Capacity Safeguard**: Never commit log dumps, compile warnings, or stack traces directly into rule files. Rule updates must use a rewrite-in-place compacting pattern to stay well below 12,000 characters.
+"""
+    with open(os.path.join(WORKSPACE_DIR, ".agents", "rules", "development-ontology.md"), "w") as f:
+        f.write(dev_ontology_md)
+
+    # 12. skills/heal-and-evolve/SKILL.md
+    skill_md = """---
+name: heal-and-evolve
+description: Classifies and troubleshoot compile and runtime codebase anomalies. Use when analyzing test errors or resolving compilation faults.
+---
+# Heal and Evolve Skill
+Provides the diagnostic framework and decision trees required to resolve structural failures.
+
+## Diagnostic Protocol
+1. **Anomaly Classification**: Parse the logs to classify the software error:
+   - `ToolFailure`: Execution command returned a non-zero exit code.
+   - `InputCorruption`: Broken schema specifications or mismatched parameters.
+   - `ReasoningCollapse`: Runaway loop recursion or step capacity threshold reached.
+2. **Technical Sourcing**: Consult local configurations or make targeted queries using `search_web` if encountering unfamiliar dependency issues.
+3. **Remediation Strategy**: Draft the isolated repair, define verification commands, and delegate task boundaries.
+"""
+    with open(os.path.join(WORKSPACE_DIR, ".agents", "skills", "heal-and-evolve", "SKILL.md"), "w") as f:
+        f.write(skill_md)
+
+    # 13. scripts/sdk_agent_healer.py
+    sdk_code = """import asyncio
+import os
+from google.antigravity import Agent, LocalAgentConfig
+from google.antigravity.hooks.policy import deny, allow, ask_user
+
+async def main():
+    # Windows-hardened deny-by-default execution policy
+    policies = [
+        deny("*"),
+        allow("view_file"),
+        ask_user("run_command")
+    ]
+    
+    config = LocalAgentConfig()
+    async with Agent(config) as agent:
+        response = await agent.chat("Analyze our workspace rules and print our project self-healing protocol.")
+        print(await response.text())
+
+if __name__ == "__main__":
+    asyncio.run(main())
+"""
+    with open(os.path.join(WORKSPACE_DIR, "scripts", "sdk_agent_healer.py"), "w") as f:
+        f.write(sdk_code)
+
+    # 14. resources/ontology.ttl
+    ttl_code = """@prefix ag: <https://antigravity.google/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ag:Loop a owl:Class ;
+    rdfs:label "Autonomic Loop" .
+
+ag:Anomaly a owl:Class ;
+    rdfs:label "Software Anomaly" .
+
+ag:ToolFailure a owl:Class ;
+    rdfs:subClassOf ag:Anomaly ;
+    rdfs:label "Tool Execution Failure" .
+
+ag:RecoveryPlan a owl:Class ;
+    rdfs:label "Remediation Trajectory" .
+"""
+    with open(os.path.join(WORKSPACE_DIR, "resources", "ontology.ttl"), "w") as f:
+        f.write(ttl_code)
+
+    log("All structural assets and configuration scripts written to disk successfully.")
+
+def main():
+    log("Verifying operating system compatibility...")
+    is_windows = (platform.system() == "Windows")
+    if is_windows:
+        log("SUCCESS: Confirmed Windows host platform.")
+    else:
+        log("NOTICE: Running on non-Windows environment. Path mappings and commands are mapped to Windows standards.")
+    
+    # Run the Git check
+    git_ready = check_git_status()
+    if not git_ready:
+        initialize_git()
+        
+    build_scaffold()
+    write_files()
+    log("=========================================================================")
+    log("Google Antigravity Production v5 Bootstrap Installer Execution Completed!")
+    log("=========================================================================")
+
+if __name__ == "__main__":
+    main()
+</file>
+
+<file path="sidecars/watcher/sidecar.json">
+{
+  "description": "Continuous workspace file watcher for compiling/test failures.",
+  "command": "python",
+  "args": [
+    "watcher.py"
+  ],
+  "restart_policy": "always"
+}
+</file>
+
+<file path="sidecars/watcher/watcher.py">
+import os
+import time
+import subprocess
+import sys
+import json
+
+def log(msg):
+    sys.stderr.write(f"[Watcher Log] {msg}\n")
+
+def main():
+    log("Background Watcher Sidecar initialized on Windows 10.")
+    workspace_dir = os.environ.get("WORKSPACE_DIR", "C:\\Users\\Johnny Cage\\ITS")
+    
+    # Watch for trigger file simulating error conditions
+    trigger_file = os.path.join(workspace_dir, "trigger_error.txt")
+    
+    while True:
+        try:
+            if os.path.exists(trigger_file):
+                log("Trigger file detected! Simulating tool compilation anomaly.")
+                
+                data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
+                if not data_dir:
+                    user_profile = os.environ.get("USERPROFILE", "C:\\Users\\Johnny Cage")
+                    data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
+                
+                os.makedirs(data_dir, exist_ok=True)
+                state_path = os.path.join(data_dir, "healing-state.json")
+                
+                state = {
+                    "activeAnomaly": "ToolFailure",
+                    "errorDetails": "Compilation failed in index.js: SyntaxError Unexpected token",
+                    "status": "active",
+                    "retryCount": 0
+                }
+                
+                with open(state_path, "w") as f:
+                    json.dump(state, f, indent=2)
+                
+                try:
+                    os.remove(trigger_file)
+                except Exception as e:
+                    log(f"Failed to remove trigger file: {str(e)}")
+                
+                log("Executing agentapi command to launch proactive conversation...")
+                try:
+                    subprocess.run(["agentapi", "new-conversation", "A background compilation error has been detected. Run: /workflow-heal-project"], shell=True)
+                except Exception as cli_err:
+                    log(f"agentapi execution error: {str(cli_err)}")
+                    
+            time.sleep(5)
+        except KeyboardInterrupt:
+            break
+        except Exception as e:
+            log(f"Error in watcher loop: {str(e)}")
+            time.sleep(5)
+
+if __name__ == "__main__":
+    main()
+</file>
+
+<file path="test_watcher.ps1">
+<#
+.SYNOPSIS
+    PowerShell Test Script for Google Antigravity 2.0 Self-Healer Sidecar and Hooks.
+    Tailored for Windows 10: C:\Users\Johnny Cage\ITS
+#>
+
+$ProjectRoot = "C:\Users\Johnny Cage\ITS"
+$GeminiDir = "$env:USERPROFILE\.gemini"
+$SidecarId = "antigravity-self-healer/watcher"
+$StateDir = "$GeminiDir\antigravity\sidecar_data\$SidecarId\data"
+$StateFile = "$StateDir\healing-state.json"
+$TriggerFile = "$ProjectRoot\trigger_error.txt"
+
+Clear-Host
+Write-Host "======================================================================" -ForegroundColor Cyan
+Write-Host "     GOOGLE ANTIGRAVITY 2.0 - SELF-HEALER DIAGNOSTIC TOOL (WINDOWS)  " -ForegroundColor Cyan
+Write-Host "======================================================================" -ForegroundColor Cyan
+Write-Host ""
+
+# 1. Environment & Path Verification
+Write-Host "[*] Verifying path layouts..." -ForegroundColor Yellow
+if (-not (Test-Path $ProjectRoot)) {
+    Write-Error "Workspace path not found: $ProjectRoot. Please run setup_dev_healer_v5.py first."
+    Exit
+}
+Write-Host "  [+] Active Workspace found: $ProjectRoot" -ForegroundColor Green
+
+# Verify Git is initialized
+Set-Location $ProjectRoot
+$isGit = git rev-parse --is-inside-work-tree 2>$null
+if ($lastExitCode -ne 0) {
+    Write-Warning "  [!] Git is not yet active in this workspace. Run the setup script to initialize Git, ensuring Worktree isolation functions."
+} else {
+    Write-Host "  [+] Git is active. Ready for isolated background worktree execution." -ForegroundColor Green
+}
+
+# 2. Check for AppData Isolation Paths
+Write-Host ""
+Write-Host "[*] Verifying system-allocated AppData paths..." -ForegroundColor Yellow
+if (-not (Test-Path $StateDir)) {
+    Write-Host "  [*] Creating system-allocated state folder to match ANTIGRAVITY_EXECUTABLE_DATA_DIR..." -ForegroundColor Gray
+    New-Item -ItemType Directory -Path $StateDir -Force | Out-Null
+}
+Write-Host "  [+] Secure state folder verified at: $StateDir" -ForegroundColor Green
+
+# 3. Simulate a Compilation Failure Anomaly
+Write-Host ""
+Write-Host "[*] Simulating project anomaly..." -ForegroundColor Yellow
+$MockErrorMessage = "Compilation failed in auth_service.py: NameError 'client_reference_id' is not defined"
+Write-Host "  --> Writing mock compilation failure to $TriggerFile..." -ForegroundColor Gray
+$MockErrorMessage | Out-File -FilePath $TriggerFile -Encoding utf8
+
+# 4. Trigger Sidecar Monitoring Log Logic
+Write-Host ""
+Write-Host "[*] Activating watcher parsing logic..." -ForegroundColor Yellow
+# Run the watcher module on a single-pass mock execution
+$WatcherScript = "$ProjectRoot\sidecars\watcher\watcher.py"
+if (Test-Path $WatcherScript) {
+    Write-Host "  --> Executing Python watcher loop on your local Python interpreter..." -ForegroundColor Gray
+    # Force python to run the watcher once (mocked environment setup)
+    $env:ANTIGRAVITY_EXECUTABLE_DATA_DIR = $StateDir
+    $env:PROJECT_ID = "test-windows-project-id"
+    python $WatcherScript --one-run
+    
+    # Check if watcher wrote the anomaly to the secure data cache
+    if (Test-Path $StateFile) {
+        Write-Host "  [+] STATE CACHE UPDATED!" -ForegroundColor Green
+        Write-Host "  Reading logged anomaly state from: $StateFile" -ForegroundColor Gray
+        Get-Content $StateFile | ConvertFrom-Json | Format-List
+    } else {
+        Write-Warning "  [!] State file was not generated at $StateFile. Ensure write permissions are granted."
+    }
+} else {
+    Write-Warning "  [!] watcher.py script not found at $WatcherScript. Run setup_dev_healer_v5.py first."
+}
+
+# 5. Clean up simulated files
+Write-Host ""
+Write-Host "[*] Clean up simulated workspace files..." -ForegroundColor Yellow
+if (Test-Path $TriggerFile) {
+    Remove-Item $TriggerFile -Force
+    Write-Host "  [+] Removed trigger_error.txt" -ForegroundColor Green
+}
+
+Write-Host ""
+Write-Host "======================================================================" -ForegroundColor Cyan
+Write-Host "  DIAGNOSTICS COMPLETED. Drop the script into your Windows PowerShell " -ForegroundColor Cyan
+Write-Host "  terminal in 'C:\Users\Johnny Cage\ITS' to run active verifications! " -ForegroundColor Cyan
+Write-Host "======================================================================" -ForegroundColor Cyan
+</file>
+
+<file path=".agents/rules/development-ontology.md">
+# Workspace Guidelines & Anomaly Ontology
+This rule is Always-On and enforces project integrity guidelines for all developer agents.
+
+## Enforced Standards
+* **Process Handle Hygiene**: All background compilers, watchers, or test runners spawned in isolated worktrees must be explicitly terminated prior to subagent shutdown to prevent Windows directory lockups (Access is denied errors).
+* **Workspace Isolation**: Multi-step codebase refactors or experimental repairs must be performed inside isolated background branches via New Worktree Mode.
+* **Pathing Normalization**: Programmatically convert all backslashes (`\`) to forward slashes (`/`) in path strings prior to testing permissions, drive letters must be stripped during evaluation.
+* **Character Capacity Safeguard**: Never commit log dumps, compile warnings, or stack traces directly into rule files. Rule updates must use a rewrite-in-place compacting pattern to stay well below 12,000 characters.
+* **Syntax Validation**: Prior to committing any Javascript/Node.js changes, verify syntax validity (e.g., by running `node --check <file>`) to ensure no syntax errors or unclosed parentheses are introduced.
+</file>
+
+<file path=".agents/workflows/workflow-heal-project.md">
+# Autonomic Self-Healing Workflow (`/workflow-heal-project`)
+
+This workflow guides the Antigravity 2.0 agent through the complete MAPE-K sensation, isolation, remediation, and self-evolution sequence on Windows 10. It utilizes `run_tests_hardened.py` to prevent Windows process file locking during compilation and testing.
+
+## Step 1: Read the Active Anomaly State (Monitor & Sensation)
+The agent must read the cached anomaly payload to understand the exact failure.
+*   **Action**: Inspect the persistent cache under the system-allocated app data directory (exposed via the `%ANTIGRAVITY_EXECUTABLE_DATA_DIR%` environment variable).
+*   **State File**: `%ANTIGRAVITY_EXECUTABLE_DATA_DIR%\healing-state.json`
+*   **Instruction**: Parse the `errorDetails` and `activeAnomaly` properties. Do not look in `.agents/scratch/` since Strict Mode blocks ignored paths.
+
+## Step 2: Classify the Failure (Analyze)
+Activate the `@heal-and-evolve` skill to categorize the issue.
+*   **Action**: Evaluate the error string against the taxonomy defined in `.agents\rules\development-ontology.md` (e.g., `ToolFailure`, `InputCorruption`).
+*   **Instruction**: Select the correct validation command (e.g., compile vs unit test check) needed to prove the bug is resolved.
+
+## Step 3: Spin Up Isolated Workspace (Execute - Isolation)
+To safeguard the local working directory from concurrent writes and file locks, delegate the fix to an isolated workspace.
+*   **Action**: Call `invoke_subagent` and explicitly choose **New Worktree Mode**.
+*   **Boundary Checklist**:
+    *   Verify the directory has an underlying `.git` initialization.
+    *   Confirm the subagent starts on a clean slate context with no token bloat.
+
+## Step 4: Remediate and Validate with Hardened Execution (Execute - Remediation)
+Inside the temporary Git worktree, apply the code modifications and validate the fix.
+*   **Action**: Execute the test or compilation step using our hardened process-tree runner. This prevents lingering background background daemons or compile-watchers from holding Windows file handles.
+*   **Execution Template**:
+    ```cmd
+    python run_tests_hardened.py <your-test-or-compile-command>
+    ```
+    *Example*: `python run_tests_hardened.py pytest` or `python run_tests_hardened.py npm test`
+*   **Validation Rule**: The repair is only successful when the hardened process wrapper returns a clean `exit 0` status.
+
+## Step 5: Clean Up and Merge (Execute - Resolution)
+*   **Action**: Once tests return 100% green, commit the changes inside the worktree and merge them back to the active local branch.
+*   **Instruction**: Signal completion to the parent agent. This terminates the subagent and automatically wipes the temporary Git worktree from your host disk (which succeeds flawlessly because `run_tests_hardened.py` terminated all locking file handles).
+
+## Step 6: Harden and Compact Project Knowledge (Knowledge & Self-Evolution)
+Prevent the same defect from re-occurring by codifying the lesson.
+*   **Action**: Write or update a dedicated rule under `.agents\rules\<defect-class>.md`.
+*   **Character Cap Gate**: Ensure the rule file remains well under the hard **12,000-character platform limit** [7].
+*   **Policy**: Implement a rewrite-in-place compacting strategy. Never append raw stack traces or logs to rule files; refer to `/workflow-evolve-rules` to compact if approaching the limit [8].
+*   **State Reset**: Reset the state in `%ANTIGRAVITY_EXECUTABLE_DATA_DIR%\healing-state.json` by updating `"status"` to `"resolved"`.
+</file>
+
+<file path="index.js">
+console.log("Starting application...");
+</file>
+
+</files>
