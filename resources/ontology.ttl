@@ -1,0 +1,16 @@
+@prefix ag: <https://antigravity.google/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ag:Loop a owl:Class ;
+    rdfs:label "Autonomic Loop" .
+
+ag:Anomaly a owl:Class ;
+    rdfs:label "Software Anomaly" .
+
+ag:ToolFailure a owl:Class ;
+    rdfs:subClassOf ag:Anomaly ;
+    rdfs:label "Tool Execution Failure" .
+
+ag:RecoveryPlan a owl:Class ;
+    rdfs:label "Remediation Trajectory" .

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "turso-explorer": {
+      "command": "node",
+      "args": [
+        "C:/Users/Johnny Cage/ITS/node_modules/@libsql/mcp-server/index.js"
+      ],
+      "env": {
+        "LIBSQL_URL": "libsql://your-database-name-username.turso.io",
+        "LIBSQL_AUTH_TOKEN": "YOUR_TURSO_JWT_AUTH_TOKEN_HERE"
+      }
+    }
+  }
+}

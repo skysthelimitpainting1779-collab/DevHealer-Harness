@@ -1,0 +1,8 @@
+{
+  "description": "Continuous workspace file watcher for compiling/test failures.",
+  "command": "python",
+  "args": [
+    "watcher.py"
+  ],
+  "restart_policy": "always"
+}
