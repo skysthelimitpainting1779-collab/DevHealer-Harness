@@ -1,10 +1,43 @@
-# Proactive Project Self-Healing Trajectory
-This workflow executes sequentially when a background sidecar logs a tool execution fault or testing failure.
+# Autonomic Self-Healing Workflow (`/workflow-heal-project`)
 
-## Trajectory Sequence
-1. Read the structured failure details from our git-immune state registry using the `view_file` tool on `healing-state.json` inside the system path mapped by `ANTIGRAVITY_EXECUTABLE_DATA_DIR`.
-2. Activate the `@heal-and-evolve` skill to run a rigorous diagnosis of the error logs and plan an isolated remediation.
-3. Spawn a dedicated helper subagent using the `invoke_subagent` tool. You must configure the subagent to run in **New Worktree Mode** to shield the active repository from broken builds.
-4. Inside the isolated background branch, direct the subagent to run edits and validation scripts (`npm run build`, `npm test`, etc.).
-5. **Critical Windows Process Cleanup**: Before exiting, the subagent must explicitly trace and terminate all child processes it spawned to free Windows file lock handles, avoiding 'Access is denied' exceptions on directory cleanup.
-6. Commit the passing build changes, merge the clean branch, reset `healing-state.json`, and run `/workflow-evolve-rules` to write hardened guidelines.
+This workflow guides the Antigravity 2.0 agent through the complete MAPE-K sensation, isolation, remediation, and self-evolution sequence on Windows 10. It utilizes `run_tests_hardened.py` to prevent Windows process file locking during compilation and testing.
+
+## Step 1: Read the Active Anomaly State (Monitor & Sensation)
+The agent must read the cached anomaly payload to understand the exact failure.
+*   **Action**: Inspect the persistent cache under the system-allocated app data directory (exposed via the `%ANTIGRAVITY_EXECUTABLE_DATA_DIR%` environment variable).
+*   **State File**: `%ANTIGRAVITY_EXECUTABLE_DATA_DIR%\healing-state.json`
+*   **Instruction**: Parse the `errorDetails` and `activeAnomaly` properties. Do not look in `.agents/scratch/` since Strict Mode blocks ignored paths.
+
+## Step 2: Classify the Failure (Analyze)
+Activate the `@heal-and-evolve` skill to categorize the issue.
+*   **Action**: Evaluate the error string against the taxonomy defined in `.agents\rules\development-ontology.md` (e.g., `ToolFailure`, `InputCorruption`).
+*   **Instruction**: Select the correct validation command (e.g., compile vs unit test check) needed to prove the bug is resolved.
+
+## Step 3: Spin Up Isolated Workspace (Execute - Isolation)
+To safeguard the local working directory from concurrent writes and file locks, delegate the fix to an isolated workspace.
+*   **Action**: Call `invoke_subagent` and explicitly choose **New Worktree Mode**.
+*   **Boundary Checklist**:
+    *   Verify the directory has an underlying `.git` initialization.
+    *   Confirm the subagent starts on a clean slate context with no token bloat.
+
+## Step 4: Remediate and Validate with Hardened Execution (Execute - Remediation)
+Inside the temporary Git worktree, apply the code modifications and validate the fix.
+*   **Action**: Execute the test or compilation step using our hardened process-tree runner. This prevents lingering background background daemons or compile-watchers from holding Windows file handles.
+*   **Execution Template**:
+    ```cmd
+    python run_tests_hardened.py <your-test-or-compile-command>
+    ```
+    *Example*: `python run_tests_hardened.py pytest` or `python run_tests_hardened.py npm test`
+*   **Validation Rule**: The repair is only successful when the hardened process wrapper returns a clean `exit 0` status.
+
+## Step 5: Clean Up and Merge (Execute - Resolution)
+*   **Action**: Once tests return 100% green, commit the changes inside the worktree and merge them back to the active local branch.
+*   **Instruction**: Signal completion to the parent agent. This terminates the subagent and automatically wipes the temporary Git worktree from your host disk (which succeeds flawlessly because `run_tests_hardened.py` terminated all locking file handles).
+
+## Step 6: Harden and Compact Project Knowledge (Knowledge & Self-Evolution)
+Prevent the same defect from re-occurring by codifying the lesson.
+*   **Action**: Write or update a dedicated rule under `.agents\rules\<defect-class>.md`.
+*   **Character Cap Gate**: Ensure the rule file remains well under the hard **12,000-character platform limit** [7].
+*   **Policy**: Implement a rewrite-in-place compacting strategy. Never append raw stack traces or logs to rule files; refer to `/workflow-evolve-rules` to compact if approaching the limit [8].
+*   **State Reset**: Reset the state in `%ANTIGRAVITY_EXECUTABLE_DATA_DIR%\healing-state.json` by updating `"status"` to `"resolved"`.
+
