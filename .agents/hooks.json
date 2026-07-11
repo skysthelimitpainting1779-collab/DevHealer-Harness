@@ -1,29 +1,20 @@
 {
   "PreToolUse": [
     {
-      "command": "python",
-      "args": [
-        "scripts/pre-tool-use.py"
-      ],
-      "timeout": 30
+      "command": "python .agents/scripts/pre-tool-use.py",
+      "timeout": 10
     }
   ],
   "PostToolUse": [
     {
-      "command": "python",
-      "args": [
-        "scripts/post-tool-use.py"
-      ],
-      "timeout": 60
+      "command": "python .agents/scripts/post-tool-use.py",
+      "timeout": 10
     }
   ],
   "Stop": [
     {
-      "command": "python",
-      "args": [
-        "scripts/stop-handler.py"
-      ],
-      "timeout": 30
+      "command": "python .agents/scripts/stop-handler.py",
+      "timeout": 10
     }
   ]
 }

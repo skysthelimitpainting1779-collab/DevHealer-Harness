@@ -3,11 +3,10 @@
     "turso-explorer": {
       "command": "node",
       "args": [
-        "C:/Users/Johnny Cage/ITS/node_modules/@libsql/mcp-server/index.js"
+        "C:/Users/Johnny Cage/AppData/Roaming/npm/node_modules/turso-mcp-server/index.js"
       ],
       "env": {
-        "LIBSQL_URL": "ENV_VAR_PROJECT_TURSO_URL",
-        "LIBSQL_AUTH_TOKEN": "ENV_VAR_PROJECT_TURSO_TOKEN"
+        "TURSO_DB_URL": "libsql://devhealer-cage.turso.io"
       }
     }
   }
