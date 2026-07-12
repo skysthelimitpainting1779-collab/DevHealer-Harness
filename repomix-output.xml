@@ -115,49 +115,6 @@ if __name__ == "__main__":
     main()
 </file>
 
-<file path=".agents/scripts/pre-tool-use.py">
-import sys
-import json
-import re
-
-def normalize_windows_path(raw_path):
-    clean_path = raw_path.replace("\\", "/")
-    if len(clean_path) >= 2 and clean_path == ":":
-        clean_path = clean_path[2:]
-    return clean_path
-
-def main():
-    try:
-        payload = json.load(sys.stdin)
-        tool_call = payload.get("toolCall", {})
-        tool_name = tool_call.get("name")
-        tool_args = tool_call.get("args", {})
-        
-        # Guard destructive host commands
-        if tool_name == "run_command":
-            cmd = tool_args.get("CommandLine", "")
-            if re.search(r"\b(rm\s+-rf|sudo|poweroff|reboot)\b", cmd):
-                print(json.dumps({"decision": "deny", "reason": "Destructive operations are blocked."}))
-                sys.exit(0)
-                
-        # Guard VCS metadata directories
-        if tool_name in ["write_to_file", "replace_file_content", "multi_replace_file_content"]:
-            target_path = normalize_windows_path(tool_args.get("TargetFile", ""))
-            if ".git/" in target_path or ".ssh/" in target_path:
-                print(json.dumps({"decision": "deny", "reason": "Modifying VCS directories is blocked."}))
-                sys.exit(0)
-
-        print(json.dumps({"decision": "allow", "reason": "Passed Semantic Firewall."}))
-        sys.exit(0)
-    except Exception as e:
-        sys.stderr.write(f"PreToolUse Error: {e}\n")
-        print(json.dumps({"decision": "allow", "reason": "Bypass on internal error."}))
-        sys.exit(0)
-
-if __name__ == '__main__':
-    main()
-</file>
-
 <file path=".agents/skills/firecrawl-build-interact/SKILL.md">
 ---
 name: firecrawl-build-interact
@@ -693,29 +650,6 @@ Prevent the same defect from re-occurring by codifying the lesson.
 *   **State Reset**: Reset the state in `%ANTIGRAVITY_EXECUTABLE_DATA_DIR%\healing-state.json` by updating `"status"` to `"resolved"`.
 </file>
 
-<file path=".agents/hooks.json">
-{
-  "PreToolUse": [
-    {
-      "command": "python .agents/scripts/pre-tool-use.py",
-      "timeout": 15
-    }
-  ],
-  "PostToolUse": [
-    {
-      "command": "python .agents/scripts/post-tool-use.py",
-      "timeout": 15
-    }
-  ],
-  "Stop": [
-    {
-      "command": "python .agents/scripts/stop-handler.py",
-      "timeout": 15
-    }
-  ]
-}
-</file>
-
 <file path=".agents/rules/development-ontology.md">
 # Workspace Guidelines & Anomaly Ontology
 This rule is Always-On and enforces project integrity guidelines for all developer agents.
@@ -743,6 +677,97 @@ JavaScript compilation crashes (e.g., `SyntaxError: Unexpected token`) are typic
 *   **Mandatory Pre-Commit Validation**: Before staging any `.js` file, you MUST independently verify its structural integrity by executing:
     `python run_tests_hardened.py node --check <filepath>`
 *   **Hard Gate**: Do not declare the repair successful until `node --check` returns exit code 0.
+</file>
+
+<file path=".agents/scripts/pre-tool-use.py">
+import sys
+import json
+import re
+
+def normalize_windows_path(raw_path):
+    clean_path = raw_path.replace("\\", "/")
+    if len(clean_path) >= 2 and clean_path == ":":
+        clean_path = clean_path[2:]
+    return clean_path
+
+def main():
+    try:
+        payload = json.load(sys.stdin)
+        tool_call = payload.get("toolCall", {})
+        tool_name = tool_call.get("name")
+        tool_args = tool_call.get("args", {})
+        
+        # Guard destructive host commands
+        if tool_name == "run_command":
+            cmd = tool_args.get("CommandLine", "")
+            if re.search(r"\b(rm\s+-rf|sudo|poweroff|reboot)\b", cmd):
+                print(json.dumps({"decision": "deny", "reason": "Destructive operations are blocked."}))
+                sys.exit(0)
+                
+        # Guard VCS metadata directories
+        if tool_name in ["write_to_file", "replace_file_content", "multi_replace_file_content"]:
+            target_path = normalize_windows_path(tool_args.get("TargetFile", ""))
+            if ".git/" in target_path or ".ssh/" in target_path:
+                print(json.dumps({"decision": "deny", "reason": "Modifying VCS directories is blocked."}))
+                sys.exit(0)
+
+        print(json.dumps({"decision": "allow", "reason": "Passed Semantic Firewall."}))
+        sys.exit(0)
+    except Exception as e:
+        sys.stderr.write(f"PreToolUse Error: {e}\n")
+        print(json.dumps({"decision": "allow", "reason": "Bypass on internal error."}))
+        sys.exit(0)
+
+if __name__ == '__main__':
+    main()
+</file>
+
+<file path="run_tests_hardened.py">
+import subprocess
+import time
+import os
+
+def kill_child_processes(parent_pid):
+    """Recursively sweep and kill all descendant processes under Windows 10."""
+    try:
+        import psutil
+        parent = psutil.Process(parent_pid)
+        children = parent.children(recursive=True)
+        for child in children:
+            print(f"Force terminating descendant process PID {child.pid}...")
+            child.terminate()
+        psutil.wait_procs(children, timeout=5)
+    except ImportError:
+        # Fallback to taskkill on Windows
+        print("psutil not installed, falling back to taskkill /T /F...")
+        subprocess.run(["taskkill", "/T", "/F", "/PID", str(parent_pid)], capture_output=True)
+    except Exception as e:
+        print(f"Process sweep warning: {e}")
+
+print("Process Tree Sweeper Module successfully initialized!")
+</file>
+
+<file path=".agents/hooks.json">
+{
+  "PreToolUse": [
+    {
+      "command": "python .agents/scripts/pre-tool-use.py",
+      "timeout": 15
+    }
+  ],
+  "PostToolUse": [
+    {
+      "command": "python .agents/scripts/post-tool-use.py",
+      "timeout": 15
+    }
+  ],
+  "Stop": [
+    {
+      "command": "python .agents/scripts/stop-handler.py",
+      "timeout": 15
+    }
+  ]
+}
 </file>
 
 <file path=".agents/scripts/stop-handler.py">
@@ -785,31 +810,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-</file>
-
-<file path="run_tests_hardened.py">
-import subprocess
-import time
-import os
-
-def kill_child_processes(parent_pid):
-    """Recursively sweep and kill all descendant processes under Windows 10."""
-    try:
-        import psutil
-        parent = psutil.Process(parent_pid)
-        children = parent.children(recursive=True)
-        for child in children:
-            print(f"Force terminating descendant process PID {child.pid}...")
-            child.terminate()
-        psutil.wait_procs(children, timeout=5)
-    except ImportError:
-        # Fallback to taskkill on Windows
-        print("psutil not installed, falling back to taskkill /T /F...")
-        subprocess.run(["taskkill", "/T", "/F", "/PID", str(parent_pid)], capture_output=True)
-    except Exception as e:
-        print(f"Process sweep warning: {e}")
-
-print("Process Tree Sweeper Module successfully initialized!")
 </file>
 
 <file path="setup.py">
