@@ -28,7 +28,7 @@ def main():
                 retries = state.get("retryCount", 0)
                 if retries < 3:
                     decision = "continue"
-                    reason = "Unresolved codebase anomaly remains. Re-entering execution trajectory via /workflow-heal-project."
+                    reason = "Unresolved codebase anomaly remains. Re-entering execution trajectory via /workflow_heal_project."
                     state["retryCount"] = retries + 1
                     with open(state_path, "w") as f:
                         json.dump(state, f, indent=2)
