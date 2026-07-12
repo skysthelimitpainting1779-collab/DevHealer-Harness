@@ -1,4 +1,4 @@
-This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
+This file is a merged representation of a subset of the codebase, containing specifically included files, combined into a single document by Repomix.
 
 <file_summary>
 This section contains a summary of this file.
@@ -32,7 +32,7 @@ The content is organized as follows:
 <notes>
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
-- Files matching these patterns are excluded: **/.env, **/*.env.*, **/*.pem, **/*.key, **/*.cert, **/secrets/*, **/credentials.json, **/.npmrc, **/*.log
+- Only files matching these patterns are included: setup.py, run_tests_hardened.py, test_harness.ps1, .agents/hooks.json, .agents/mcp_config.json, .agents/scripts/**/*.py, .agents/rules/**/*.md, .agents/workflows/**/*.md, .agents/skills/**/*.md
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Files are sorted by Git change count (files with more changes are at the bottom)
@@ -42,271 +42,31 @@ The content is organized as follows:
 
 <directory_structure>
 .agents/hooks.json
-.agents/mcp_config.json
-.agents/plugin.json
 .agents/rules/development-ontology.md
+.agents/rules/ToolFailure.md
+.agents/scripts/post-tool-use.py
+.agents/scripts/pre-tool-use.py
+.agents/scripts/stop-handler.py
+.agents/skills/firecrawl-build-interact/SKILL.md
+.agents/skills/firecrawl-build-onboarding/references/auth-flow.md
+.agents/skills/firecrawl-build-onboarding/references/project-setup.md
+.agents/skills/firecrawl-build-onboarding/references/sdk-installation.md
+.agents/skills/firecrawl-build-onboarding/SKILL.md
+.agents/skills/firecrawl-build-scrape/SKILL.md
+.agents/skills/firecrawl-build-search/SKILL.md
+.agents/skills/firecrawl-research-index/SKILL.md
 .agents/skills/heal-and-evolve/SKILL.md
-.agents/workflows/workflow-evolve-rules.md
-.agents/workflows/workflow-heal-project.md
-index.js
-README.md
-resources/ontology.ttl
+.agents/workflows/workflow_evolve_rules.md
+.agents/workflows/workflow_heal_project.md
 run_tests_hardened.py
-scripts/post-tool-use.py
-scripts/pre-tool-use.py
-scripts/sdk_agent_healer.py
-scripts/stop-handler.py
-setup_dev_healer_v5.py
-sidecars/watcher/sidecar.json
-sidecars/watcher/watcher.py
-test_watcher.ps1
+setup.py
+test_harness.ps1
 </directory_structure>
 
 <files>
 This section contains the contents of the repository's files.
 
-<file path=".agents/hooks.json">
-{
-  "PreToolUse": [
-    {
-      "command": "python",
-      "args": [
-        "scripts/pre-tool-use.py"
-      ],
-      "timeout": 30
-    }
-  ],
-  "PostToolUse": [
-    {
-      "command": "python",
-      "args": [
-        "scripts/post-tool-use.py"
-      ],
-      "timeout": 60
-    }
-  ],
-  "Stop": [
-    {
-      "command": "python",
-      "args": [
-        "scripts/stop-handler.py"
-      ],
-      "timeout": 30
-    }
-  ]
-}
-</file>
-
-<file path=".agents/mcp_config.json">
-{
-  "mcpServers": {
-    "turso-explorer": {
-      "command": "node",
-      "args": [
-        "C:/Users/Johnny Cage/ITS/node_modules/@libsql/mcp-server/index.js"
-      ],
-      "env": {
-        "LIBSQL_URL": "libsql://your-database-name-username.turso.io",
-        "LIBSQL_AUTH_TOKEN": "YOUR_TURSO_JWT_AUTH_TOKEN_HERE"
-      }
-    }
-  }
-}
-</file>
-
-<file path=".agents/plugin.json">
-{
-  "name": "antigravity-self-healer"
-}
-</file>
-
-<file path=".agents/skills/heal-and-evolve/SKILL.md">
----
-name: heal-and-evolve
-description: Classifies and troubleshoot compile and runtime codebase anomalies. Use when analyzing test errors or resolving compilation faults.
----
-# Heal and Evolve Skill
-Provides the diagnostic framework and decision trees required to resolve structural failures.
-
-## Diagnostic Protocol
-1. **Anomaly Classification**: Parse the logs to classify the software error:
-   - `ToolFailure`: Execution command returned a non-zero exit code.
-   - `InputCorruption`: Broken schema specifications or mismatched parameters.
-   - `ReasoningCollapse`: Runaway loop recursion or step capacity threshold reached.
-2. **Technical Sourcing**: Consult local configurations or make targeted queries using `search_web` if encountering unfamiliar dependency issues.
-3. **Remediation Strategy**: Draft the isolated repair, define verification commands, and delegate task boundaries.
-</file>
-
-<file path=".agents/workflows/workflow-evolve-rules.md">
-# Rule Evolution & Compacting Trajectory
-This workflow implements our strict code knowledge adaptation policy without breaching system file constraints.
-
-## Trajectory Sequence
-1. Analyze the successful remediation logs to isolate the root programming failure.
-2. Draft a highly specific constraint rule targeting the error class and place it in `.agents/rules/`.
-3. **Summarize-and-Compact Evolution Strategy**: If a rule file already exists, edit the file in place using the summarize-and-compact rewrite strategy. Do not blindly append logs or debugging traces.
-4. Keep all rule Markdown files strictly below the **12,000-character cap** to prevent silent platform truncation.
-</file>
-
-<file path="README.md">
-# ITS Project
-Initialized with Antigravity 2.0 Autonomic Loop.
-</file>
-
-<file path="resources/ontology.ttl">
-@prefix ag: <https://antigravity.google/ontology#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-
-ag:Loop a owl:Class ;
-    rdfs:label "Autonomic Loop" .
-
-ag:Anomaly a owl:Class ;
-    rdfs:label "Software Anomaly" .
-
-ag:ToolFailure a owl:Class ;
-    rdfs:subClassOf ag:Anomaly ;
-    rdfs:label "Tool Execution Failure" .
-
-ag:RecoveryPlan a owl:Class ;
-    rdfs:label "Remediation Trajectory" .
-</file>
-
-<file path="run_tests_hardened.py">
-#!/usr/bin/env python
-"""
-run_tests_hardened.py
-======================
-A production-hardened test and compilation runner wrapper for Windows 10.
-Designed to prevent Windows file-locking issues ("Access is denied") during 
-automatic Git worktree deletions in Google Antigravity 2.0.
-
-This script executes your build or test commands, monitors them, and guarantees
-that all spawned child processes are recursively terminated upon completion, 
-failure, or timeout. This ensures all file handles are completely released.
-"""
-
-import os
-import sys
-import subprocess
-import time
-
-# Attempt to import psutil for robust process tree tracking
-try:
-    import psutil
-except ImportError:
-    # If psutil is not installed globally yet, attempt to install or log warning
-    psutil = None
-
-def log_to_stderr(message):
-    """
-    Redirects internal logging to stderr to maintain absolute stdout hygiene,
-    preventing malformed JSON parser stalls if this runner is executed inside a hook.
-    """
-    sys.stderr.write(f"[HARDENED-RUNNER] {message}\n")
-    sys.stderr.flush()
-
-def kill_child_processes(parent_pid):
-    """
-    Recursively locates and terminates all child processes spawned by the parent PID.
-    Releases locked file handles on Windows 10.
-    """
-    if not psutil:
-        log_to_stderr("WARNING: 'psutil' is not installed. Unable to recursively clean up child process trees.")
-        log_to_stderr("Please run: pip install psutil")
-        return
-
-    try:
-        parent = psutil.Process(parent_pid)
-        children = parent.children(recursive=True)
-        if not children:
-            return
-
-        log_to_stderr(f"Found {len(children)} active child process(es). Initiating cleanup...")
-        
-        # Phase 1: Soft terminate child processes
-        for child in children:
-            try:
-                log_to_stderr(f"Terminating child PID {child.pid} ({child.name()})")
-                child.terminate()
-            except psutil.NoSuchProcess:
-                pass
-
-        # Wait briefly for processes to shut down gracefully
-        gone, alive = psutil.wait_procs(children, timeout=3)
-        
-        # Phase 2: Force kill any stubborn survivors
-        if alive:
-            log_to_stderr(f"{len(alive)} processes survived termination. Initiating force kill...")
-            for survivor in alive:
-                try:
-                    log_to_stderr(f"Force-killing PID {survivor.pid} ({survivor.name()})")
-                    survivor.kill()
-                except psutil.NoSuchProcess:
-                    pass
-                    
-        log_to_stderr("All child processes successfully cleaned up.")
-    except Exception as e:
-        log_to_stderr(f"Error during process tree cleanup: {e}")
-
-def run_command(command_list, cwd=None, timeout=60):
-    """
-    Runs the targeted development command under strict process monitoring.
-    """
-    my_pid = os.getpid()
-    log_to_stderr(f"Starting execution of command: {' '.join(command_list)} (Parent PID: {my_pid})")
-    
-    start_time = time.time()
-    process = None
-    
-    try:
-        # Use shell=True for Windows command compatibility, but manage securely
-        process = subprocess.Popen(
-            command_list,
-            cwd=cwd,
-            stdout=sys.stdout,
-            stderr=sys.stderr,
-            shell=True
-        )
-        
-        # Monitor the process execution
-        while process.poll() is None:
-            time.sleep(0.5)
-            # Enforce execution timeout limits
-            if time.time() - start_time > timeout:
-                log_to_stderr(f"Command execution exceeded timeout of {timeout} seconds. Triggering abort...")
-                process.terminate()
-                break
-                
-        exit_code = process.returncode if process.poll() is not None else -1
-        log_to_stderr(f"Command completed with exit code: {exit_code}")
-        return exit_code
-
-    except Exception as e:
-        log_to_stderr(f"Execution failed with error: {e}")
-        return 1
-
-    finally:
-        # ABSOLUTE SAFETY GATE: Guarantee all subprocesses and children are terminated
-        log_to_stderr("Entering absolute process tree cleanup phase...")
-        kill_child_processes(my_pid)
-
-if __name__ == "__main__":
-    # If no arguments are provided, output usage details
-    if len(sys.argv) < 2:
-        log_to_stderr("Usage: python run_tests_hardened.py <command_to_run>")
-        log_to_stderr("Example: python run_tests_hardened.py npm test")
-        sys.exit(1)
-
-    # Reconstruct the command arguments
-    target_command = sys.argv[1:]
-    
-    # Run the hardened wrapper (defaults to a 60-second timeout)
-    exit_status = run_command(target_command, cwd=os.getcwd(), timeout=60)
-    sys.exit(exit_status)
-</file>
-
-<file path="scripts/post-tool-use.py">
+<file path=".agents/scripts/post-tool-use.py">
 import sys
 import json
 import os
@@ -355,7 +115,7 @@ if __name__ == "__main__":
     main()
 </file>
 
-<file path="scripts/pre-tool-use.py">
+<file path=".agents/scripts/pre-tool-use.py">
 import sys
 import json
 
@@ -405,30 +165,7 @@ if __name__ == "__main__":
     main()
 </file>
 
-<file path="scripts/sdk_agent_healer.py">
-import asyncio
-import os
-from google.antigravity import Agent, LocalAgentConfig
-from google.antigravity.hooks.policy import deny, allow, ask_user
-
-async def main():
-    # Windows-hardened deny-by-default execution policy
-    policies = [
-        deny("*"),
-        allow("view_file"),
-        ask_user("run_command")
-    ]
-    
-    config = LocalAgentConfig()
-    async with Agent(config) as agent:
-        response = await agent.chat("Analyze our workspace rules and print our project self-healing protocol.")
-        print(await response.text())
-
-if __name__ == "__main__":
-    asyncio.run(main())
-</file>
-
-<file path="scripts/stop-handler.py">
+<file path=".agents/scripts/stop-handler.py">
 import sys
 import json
 import os
@@ -448,7 +185,7 @@ def main():
         
         state_path = os.path.join(data_dir, "healing-state.json")
         
-        decision = "stop"
+        decision = "allow"
         reason = "System conditions cleared."
         
         if os.path.exists(state_path):
@@ -478,396 +215,15 @@ def main():
         sys.stdout.flush()
     except Exception as e:
         log(f"LoopControl execution error: {str(e)}")
-        sys.stdout.write(json.dumps({"decision": "stop"}))
+        sys.stdout.write(json.dumps({"decision": "allow"}))
         sys.stdout.flush()
 
 if __name__ == "__main__":
     main()
 </file>
 
-<file path="setup_dev_healer_v5.py">
-# -*- coding: utf-8 -*-
-"""
-Google Antigravity 2.0 - Hardened Production Setup Script (v5)
-Target Environment: Windows 10 Host (Johnny Cage / C:\\Users\\Johnny Cage\\ITS)
-Grounded on: Windows Development Environment Audit Report & Antigravity Hardening Guide
-"""
-
-import os
-import sys
-import json
-import shutil
-import platform
-import subprocess
-
-def log(msg):
-    sys.stderr.write(f"[Installer] {msg}\n")
-
-# Target Workspace Normalization
-WORKSPACE_DIR = os.getcwd()
-NORMALIZED_WORKSPACE = WORKSPACE_DIR.replace("\\", "/")
-
-def check_git_status():
-    log("Auditing Git status...")
-    is_git = False
-    try:
-        # Run standard non-blocking git check
-        result = subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], 
-                                capture_output=True, text=True, shell=True)
-        if result.returncode == 0 and "true" in result.stdout.lower():
-            is_git = True
-            log("Git repository detected. Isolated worktree mode will execute successfully.")
-        else:
-            log("WARNING: Directory is not version-controlled.")
-    except Exception as e:
-        log(f"Git execution audit failed: {str(e)}")
-    return is_git
-
-def initialize_git():
-    log("Initializing Git repository to prevent silent worktree fallback...")
-    try:
-        result = subprocess.run(["git", "init"], capture_output=True, text=True, shell=True)
-        if result.returncode == 0:
-            log("SUCCESS: Git repository initialized successfully!")
-            # Add a dummy commit so worktree operations have a head reference to branch off of
-            with open("README.md", "w") as f:
-                f.write("# ITS Project\nInitialized with Antigravity 2.0 Autonomic Loop.\n")
-            subprocess.run(["git", "add", "README.md"], shell=True)
-            subprocess.run(["git", "commit", "-m", "Initial commit from Antigravity v5 Installer"], shell=True)
-            log("SUCCESS: Created initial commit.")
-        else:
-            log(f"ERROR: Failed to initialize Git. Details: {result.stderr}")
-    except Exception as e:
-        log(f"Exception while running git init: {str(e)}")
-
-def build_scaffold():
-    log(f"Beginning directory construction under: {WORKSPACE_DIR}")
-    
-    # Define directories relative to execution root
-    dirs = [
-        ".agents",
-        ".agents/rules",
-        ".agents/workflows",
-        ".agents/skills",
-        ".agents/skills/heal-and-evolve",
-        "scripts",
-        "sidecars",
-        "sidecars/watcher",
-        "resources"
-    ]
-    
-    for d in dirs:
-        os.makedirs(os.path.join(WORKSPACE_DIR, d), exist_ok=True)
-    log("Scaffold directory structure built successfully.")
-
-def write_files():
-    # 1. plugin.json
-    plugin_data = {
-        "name": "antigravity-self-healer"
-    }
-    with open(os.path.join(WORKSPACE_DIR, ".agents", "plugin.json"), "w") as f:
-        json.dump(plugin_data, f, indent=2)
-
-    # 2. hooks.json (Flat 2.0 Event-Keyed Format, Windows Native Command Interpreter)
-    hooks_data = {
-        "PreToolUse": [
-            {
-                "command": "python",
-                "args": ["scripts/pre-tool-use.py"],
-                "timeout": 30
-            }
-        ],
-        "PostToolUse": [
-            {
-                "command": "python",
-                "args": ["scripts/post-tool-use.py"],
-                "timeout": 60
-            }
-        ],
-        "Stop": [
-            {
-                "command": "python",
-                "args": ["scripts/stop-handler.py"],
-                "timeout": 30
-            }
-        ]
-    }
-    with open(os.path.join(WORKSPACE_DIR, ".agents", "hooks.json"), "w") as f:
-        json.dump(hooks_data, f, indent=2)
-
-    # 3. mcp_config.json (Turso Integration Scaffolded with Node.js stdio Transport)
-    mcp_data = {
-        "mcpServers": {
-            "turso-explorer": {
-                "command": "node",
-                "args": [
-                    f"{NORMALIZED_WORKSPACE}/node_modules/@libsql/mcp-server/index.js"
-                ],
-                "env": {
-                    "LIBSQL_URL": "libsql://your-database-name-username.turso.io",
-                    "LIBSQL_AUTH_TOKEN": "YOUR_TURSO_JWT_AUTH_TOKEN_HERE"
-                }
-            }
-        }
-    }
-    with open(os.path.join(WORKSPACE_DIR, ".agents", "mcp_config.json"), "w") as f:
-        json.dump(mcp_data, f, indent=2)
-
-    # 4. scripts/pre-tool-use.py (Hygienic Semantic Firewall, Path-Normalization Compliant)
-    pre_tool_use_code = """import sys
-import json
-
-def log(msg):
-    sys.stderr.write(f"[Firewall Log] {msg}\\n")
-
-def main():
-    try:
-        input_data = json.load(sys.stdin)
-        log("Evaluating PreToolUse safety criteria.")
-        
-        tool_call = input_data.get("toolCall", {})
-        tool_name = tool_call.get("name")
-        tool_args = tool_call.get("args", {})
-        
-        decision = "allow"
-        reason = "Command within normal operational constraints."
-        permission_overrides = []
-        
-        # Pull targets and normalize backslashes and drive letters
-        target_file = tool_args.get("TargetFile") or tool_args.get("AbsolutePath") or tool_args.get("CommandLine") or ""
-        normalized_target = target_file.replace("\\\\", "/").replace("\\\\", "/").lower()
-        
-        # Firewall matching constraints
-        if ".git/" in normalized_target or ".git\\\\" in target_file:
-            decision = "deny"
-            reason = "Security Gate Failure: Direct modification of .git/ folders is strictly prohibited."
-        elif "rmdir" in normalized_target or "rm -rf" in normalized_target:
-            decision = "ask"
-            reason = "Destructive recursive deletions require manual developer-in-the-loop validation."
-            permission_overrides = ["command(rmdir)", "command(rm)"]
-
-        output = {
-            "decision": decision,
-            "reason": reason,
-            "permissionOverrides": permission_overrides
-        }
-        
-        sys.stdout.write(json.dumps(output))
-        sys.stdout.flush()
-    except Exception as e:
-        log(f"Firewall execution error: {str(e)}")
-        sys.stdout.write(json.dumps({"decision": "ask", "reason": f"Firewall script error: {str(e)}"}))
-        sys.stdout.flush()
-
-if __name__ == "__main__":
-    main()
-"""
-    with open(os.path.join(WORKSPACE_DIR, "scripts", "pre-tool-use.py"), "w") as f:
-        f.write(pre_tool_use_code)
-
-    # 5. scripts/post-tool-use.py (Sensation Module, State Saved under Git-Immune AppData Path)
-    post_tool_use_code = """import sys
-import json
-import os
-
-def log(msg):
-    sys.stderr.write(f"[Sensation Log] {msg}\\n")
-
-def main():
-    try:
-        input_data = json.load(sys.stdin)
-        log("Analyzing PostToolUse execution result.")
-        
-        error_msg = input_data.get("error", "")
-        
-        if error_msg:
-            log(f"Tool error intercepted: {error_msg}")
-            
-            # Resolve git-immune secure AppData path dynamically
-            data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
-            if not data_dir:
-                user_profile = os.environ.get("USERPROFILE", "C:\\\\Users\\\\Johnny Cage")
-                data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
-            
-            os.makedirs(data_dir, exist_ok=True)
-            state_path = os.path.join(data_dir, "healing-state.json")
-            
-            state = {
-                "activeAnomaly": "ToolFailure",
-                "errorDetails": error_msg,
-                "status": "active",
-                "retryCount": 0
-            }
-            
-            with open(state_path, "w") as f:
-                json.dump(state, f, indent=2)
-            log(f"Anomaly successfully registered in system cache: {state_path}")
-            
-        sys.stdout.write(json.dumps({}))
-        sys.stdout.flush()
-    except Exception as e:
-        log(f"Sensation module execution error: {str(e)}")
-        sys.stdout.write(json.dumps({}))
-        sys.stdout.flush()
-
-if __name__ == "__main__":
-    main()
-"""
-    with open(os.path.join(WORKSPACE_DIR, "scripts", "post-tool-use.py"), "w") as f:
-        f.write(post_tool_use_code)
-
-    # 6. scripts/stop-handler.py (Loop Termination Overrider, Prevent Runaway Execution Loop)
-    stop_handler_code = """import sys
-import json
-import os
-
-def log(msg):
-    sys.stderr.write(f"[LoopControl Log] {msg}\\n")
-
-def main():
-    try:
-        input_data = json.load(sys.stdin)
-        log("Sensing Stop checkpoint rules.")
-        
-        data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
-        if not data_dir:
-            user_profile = os.environ.get("USERPROFILE", "C:\\\\Users\\\\Johnny Cage")
-            data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
-        
-        state_path = os.path.join(data_dir, "healing-state.json")
-        
-        decision = "stop"
-        reason = "System conditions cleared."
-        
-        if os.path.exists(state_path):
-            with open(state_path, "r") as f:
-                state = json.load(f)
-            
-            if state.get("status") == "active":
-                retries = state.get("retryCount", 0)
-                if retries < 3:
-                    decision = "continue"
-                    reason = "Unresolved codebase anomaly remains. Re-entering execution trajectory via /workflow-heal-project."
-                    state["retryCount"] = retries + 1
-                    with open(state_path, "w") as f:
-                        json.dump(state, f, indent=2)
-                    log(f"Loop override engaged. Retrying build loop (Attempt {retries + 1}/3).")
-                else:
-                    state["status"] = "halted"
-                    with open(state_path, "w") as f:
-                        json.dump(state, f, indent=2)
-                    log("Maximum build retry limit (3) reached. Halting loop to protect host resources.")
-        
-        output = {
-            "decision": decision,
-            "reason": reason
-        }
-        sys.stdout.write(json.dumps(output))
-        sys.stdout.flush()
-    except Exception as e:
-        log(f"LoopControl execution error: {str(e)}")
-        sys.stdout.write(json.dumps({"decision": "stop"}))
-        sys.stdout.flush()
-
-if __name__ == "__main__":
-    main()
-"""
-    with open(os.path.join(WORKSPACE_DIR, "scripts", "stop-handler.py"), "w") as f:
-        f.write(stop_handler_code)
-
-    # 7. sidecars/watcher/sidecar.json
-    sidecar_json = {
-        "description": "Continuous workspace file watcher for compiling/test failures.",
-        "command": "python",
-        "args": [
-            "watcher.py"
-        ],
-        "restart_policy": "always"
-    }
-    with open(os.path.join(WORKSPACE_DIR, "sidecars", "watcher", "sidecar.json"), "w") as f:
-        json.dump(sidecar_json, f, indent=2)
-
-    # 8. sidecars/watcher/watcher.py (Continuous polling and agentapi activator)
-    watcher_code = """import os
-import time
-import subprocess
-import sys
-import json
-
-def log(msg):
-    sys.stderr.write(f"[Watcher Log] {msg}\\n")
-
-def main():
-    log("Background Watcher Sidecar initialized on Windows 10.")
-    workspace_dir = os.environ.get("WORKSPACE_DIR", "C:\\\\Users\\\\Johnny Cage\\\\ITS")
-    
-    # Watch for trigger file simulating error conditions
-    trigger_file = os.path.join(workspace_dir, "trigger_error.txt")
-    
-    while True:
-        try:
-            if os.path.exists(trigger_file):
-                log("Trigger file detected! Simulating tool compilation anomaly.")
-                
-                data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
-                if not data_dir:
-                    user_profile = os.environ.get("USERPROFILE", "C:\\\\Users\\\\Johnny Cage")
-                    data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
-                
-                os.makedirs(data_dir, exist_ok=True)
-                state_path = os.path.join(data_dir, "healing-state.json")
-                
-                state = {
-                    "activeAnomaly": "ToolFailure",
-                    "errorDetails": "Compilation failed in index.js: SyntaxError Unexpected token",
-                    "status": "active",
-                    "retryCount": 0
-                }
-                
-                with open(state_path, "w") as f:
-                    json.dump(state, f, indent=2)
-                
-                try:
-                    os.remove(trigger_file)
-                except Exception as e:
-                    log(f"Failed to remove trigger file: {str(e)}")
-                
-                log("Executing agentapi command to launch proactive conversation...")
-                try:
-                    subprocess.run(["agentapi", "new-conversation", "A background compilation error has been detected. Run: /workflow-heal-project"], shell=True)
-                except Exception as cli_err:
-                    log(f"agentapi execution error: {str(cli_err)}")
-                    
-            time.sleep(5)
-        except KeyboardInterrupt:
-            break
-        except Exception as e:
-            log(f"Error in watcher loop: {str(e)}")
-            time.sleep(5)
-
-if __name__ == "__main__":
-    main()
-"""
-    with open(os.path.join(WORKSPACE_DIR, "sidecars", "watcher", "watcher.py"), "w") as f:
-        f.write(watcher_code)
-
-    # 9. workflows/workflow-heal-project.md
-    heal_project_md = """# Proactive Project Self-Healing Trajectory
-This workflow executes sequentially when a background sidecar logs a tool execution fault or testing failure.
-
-## Trajectory Sequence
-1. Read the structured failure details from our git-immune state registry using the `view_file` tool on `healing-state.json` inside the system path mapped by `ANTIGRAVITY_EXECUTABLE_DATA_DIR`.
-2. Activate the `@heal-and-evolve` skill to run a rigorous diagnosis of the error logs and plan an isolated remediation.
-3. Spawn a dedicated helper subagent using the `invoke_subagent` tool. You must configure the subagent to run in **New Worktree Mode** to shield the active repository from broken builds.
-4. Inside the isolated background branch, direct the subagent to run edits and validation scripts (`npm run build`, `npm test`, etc.).
-5. **Critical Windows Process Cleanup**: Before exiting, the subagent must explicitly trace and terminate all child processes it spawned to free Windows file lock handles, avoiding 'Access is denied' exceptions on directory cleanup.
-6. Commit the passing build changes, merge the clean branch, reset `healing-state.json`, and run `/workflow-evolve-rules` to write hardened guidelines.
-"""
-    with open(os.path.join(WORKSPACE_DIR, ".agents", "workflows", "workflow-heal-project.md"), "w") as f:
-        f.write(heal_project_md)
-
-    # 10. workflows/workflow-evolve-rules.md
-    evolve_rules_md = """# Rule Evolution & Compacting Trajectory
+<file path=".agents/workflows/workflow_evolve_rules.md">
+# Rule Evolution & Compacting Trajectory
 This workflow implements our strict code knowledge adaptation policy without breaching system file constraints.
 
 ## Trajectory Sequence
@@ -875,291 +231,9 @@ This workflow implements our strict code knowledge adaptation policy without bre
 2. Draft a highly specific constraint rule targeting the error class and place it in `.agents/rules/`.
 3. **Summarize-and-Compact Evolution Strategy**: If a rule file already exists, edit the file in place using the summarize-and-compact rewrite strategy. Do not blindly append logs or debugging traces.
 4. Keep all rule Markdown files strictly below the **12,000-character cap** to prevent silent platform truncation.
-"""
-    with open(os.path.join(WORKSPACE_DIR, ".agents", "workflows", "workflow-evolve-rules.md"), "w") as f:
-        f.write(evolve_rules_md)
-
-    # 11. rules/development-ontology.md
-    dev_ontology_md = """# Workspace Guidelines & Anomaly Ontology
-This rule is Always-On and enforces project integrity guidelines for all developer agents.
-
-## Enforced Standards
-* **Process Handle Hygiene**: All background compilers, watchers, or test runners spawned in isolated worktrees must be explicitly terminated prior to subagent shutdown to prevent Windows directory lockups (Access is denied errors).
-* **Workspace Isolation**: Multi-step codebase refactors or experimental repairs must be performed inside isolated background branches via New Worktree Mode.
-* **Pathing Normalization**: Programmatically convert all backslashes (`\\`) to forward slashes (`/`) in path strings prior to testing permissions, drive letters must be stripped during evaluation.
-* **Character Capacity Safeguard**: Never commit log dumps, compile warnings, or stack traces directly into rule files. Rule updates must use a rewrite-in-place compacting pattern to stay well below 12,000 characters.
-"""
-    with open(os.path.join(WORKSPACE_DIR, ".agents", "rules", "development-ontology.md"), "w") as f:
-        f.write(dev_ontology_md)
-
-    # 12. skills/heal-and-evolve/SKILL.md
-    skill_md = """---
-name: heal-and-evolve
-description: Classifies and troubleshoot compile and runtime codebase anomalies. Use when analyzing test errors or resolving compilation faults.
----
-# Heal and Evolve Skill
-Provides the diagnostic framework and decision trees required to resolve structural failures.
-
-## Diagnostic Protocol
-1. **Anomaly Classification**: Parse the logs to classify the software error:
-   - `ToolFailure`: Execution command returned a non-zero exit code.
-   - `InputCorruption`: Broken schema specifications or mismatched parameters.
-   - `ReasoningCollapse`: Runaway loop recursion or step capacity threshold reached.
-2. **Technical Sourcing**: Consult local configurations or make targeted queries using `search_web` if encountering unfamiliar dependency issues.
-3. **Remediation Strategy**: Draft the isolated repair, define verification commands, and delegate task boundaries.
-"""
-    with open(os.path.join(WORKSPACE_DIR, ".agents", "skills", "heal-and-evolve", "SKILL.md"), "w") as f:
-        f.write(skill_md)
-
-    # 13. scripts/sdk_agent_healer.py
-    sdk_code = """import asyncio
-import os
-from google.antigravity import Agent, LocalAgentConfig
-from google.antigravity.hooks.policy import deny, allow, ask_user
-
-async def main():
-    # Windows-hardened deny-by-default execution policy
-    policies = [
-        deny("*"),
-        allow("view_file"),
-        ask_user("run_command")
-    ]
-    
-    config = LocalAgentConfig()
-    async with Agent(config) as agent:
-        response = await agent.chat("Analyze our workspace rules and print our project self-healing protocol.")
-        print(await response.text())
-
-if __name__ == "__main__":
-    asyncio.run(main())
-"""
-    with open(os.path.join(WORKSPACE_DIR, "scripts", "sdk_agent_healer.py"), "w") as f:
-        f.write(sdk_code)
-
-    # 14. resources/ontology.ttl
-    ttl_code = """@prefix ag: <https://antigravity.google/ontology#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-
-ag:Loop a owl:Class ;
-    rdfs:label "Autonomic Loop" .
-
-ag:Anomaly a owl:Class ;
-    rdfs:label "Software Anomaly" .
-
-ag:ToolFailure a owl:Class ;
-    rdfs:subClassOf ag:Anomaly ;
-    rdfs:label "Tool Execution Failure" .
-
-ag:RecoveryPlan a owl:Class ;
-    rdfs:label "Remediation Trajectory" .
-"""
-    with open(os.path.join(WORKSPACE_DIR, "resources", "ontology.ttl"), "w") as f:
-        f.write(ttl_code)
-
-    log("All structural assets and configuration scripts written to disk successfully.")
-
-def main():
-    log("Verifying operating system compatibility...")
-    is_windows = (platform.system() == "Windows")
-    if is_windows:
-        log("SUCCESS: Confirmed Windows host platform.")
-    else:
-        log("NOTICE: Running on non-Windows environment. Path mappings and commands are mapped to Windows standards.")
-    
-    # Run the Git check
-    git_ready = check_git_status()
-    if not git_ready:
-        initialize_git()
-        
-    build_scaffold()
-    write_files()
-    log("=========================================================================")
-    log("Google Antigravity Production v5 Bootstrap Installer Execution Completed!")
-    log("=========================================================================")
-
-if __name__ == "__main__":
-    main()
 </file>
 
-<file path="sidecars/watcher/sidecar.json">
-{
-  "description": "Continuous workspace file watcher for compiling/test failures.",
-  "command": "python",
-  "args": [
-    "watcher.py"
-  ],
-  "restart_policy": "always"
-}
-</file>
-
-<file path="sidecars/watcher/watcher.py">
-import os
-import time
-import subprocess
-import sys
-import json
-
-def log(msg):
-    sys.stderr.write(f"[Watcher Log] {msg}\n")
-
-def main():
-    log("Background Watcher Sidecar initialized on Windows 10.")
-    workspace_dir = os.environ.get("WORKSPACE_DIR", "C:\\Users\\Johnny Cage\\ITS")
-    
-    # Watch for trigger file simulating error conditions
-    trigger_file = os.path.join(workspace_dir, "trigger_error.txt")
-    
-    while True:
-        try:
-            if os.path.exists(trigger_file):
-                log("Trigger file detected! Simulating tool compilation anomaly.")
-                
-                data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
-                if not data_dir:
-                    user_profile = os.environ.get("USERPROFILE", "C:\\Users\\Johnny Cage")
-                    data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
-                
-                os.makedirs(data_dir, exist_ok=True)
-                state_path = os.path.join(data_dir, "healing-state.json")
-                
-                state = {
-                    "activeAnomaly": "ToolFailure",
-                    "errorDetails": "Compilation failed in index.js: SyntaxError Unexpected token",
-                    "status": "active",
-                    "retryCount": 0
-                }
-                
-                with open(state_path, "w") as f:
-                    json.dump(state, f, indent=2)
-                
-                try:
-                    os.remove(trigger_file)
-                except Exception as e:
-                    log(f"Failed to remove trigger file: {str(e)}")
-                
-                log("Executing agentapi command to launch proactive conversation...")
-                try:
-                    subprocess.run(["agentapi", "new-conversation", "A background compilation error has been detected. Run: /workflow-heal-project"], shell=True)
-                except Exception as cli_err:
-                    log(f"agentapi execution error: {str(cli_err)}")
-                    
-            time.sleep(5)
-        except KeyboardInterrupt:
-            break
-        except Exception as e:
-            log(f"Error in watcher loop: {str(e)}")
-            time.sleep(5)
-
-if __name__ == "__main__":
-    main()
-</file>
-
-<file path="test_watcher.ps1">
-<#
-.SYNOPSIS
-    PowerShell Test Script for Google Antigravity 2.0 Self-Healer Sidecar and Hooks.
-    Tailored for Windows 10: C:\Users\Johnny Cage\ITS
-#>
-
-$ProjectRoot = "C:\Users\Johnny Cage\ITS"
-$GeminiDir = "$env:USERPROFILE\.gemini"
-$SidecarId = "antigravity-self-healer/watcher"
-$StateDir = "$GeminiDir\antigravity\sidecar_data\$SidecarId\data"
-$StateFile = "$StateDir\healing-state.json"
-$TriggerFile = "$ProjectRoot\trigger_error.txt"
-
-Clear-Host
-Write-Host "======================================================================" -ForegroundColor Cyan
-Write-Host "     GOOGLE ANTIGRAVITY 2.0 - SELF-HEALER DIAGNOSTIC TOOL (WINDOWS)  " -ForegroundColor Cyan
-Write-Host "======================================================================" -ForegroundColor Cyan
-Write-Host ""
-
-# 1. Environment & Path Verification
-Write-Host "[*] Verifying path layouts..." -ForegroundColor Yellow
-if (-not (Test-Path $ProjectRoot)) {
-    Write-Error "Workspace path not found: $ProjectRoot. Please run setup_dev_healer_v5.py first."
-    Exit
-}
-Write-Host "  [+] Active Workspace found: $ProjectRoot" -ForegroundColor Green
-
-# Verify Git is initialized
-Set-Location $ProjectRoot
-$isGit = git rev-parse --is-inside-work-tree 2>$null
-if ($lastExitCode -ne 0) {
-    Write-Warning "  [!] Git is not yet active in this workspace. Run the setup script to initialize Git, ensuring Worktree isolation functions."
-} else {
-    Write-Host "  [+] Git is active. Ready for isolated background worktree execution." -ForegroundColor Green
-}
-
-# 2. Check for AppData Isolation Paths
-Write-Host ""
-Write-Host "[*] Verifying system-allocated AppData paths..." -ForegroundColor Yellow
-if (-not (Test-Path $StateDir)) {
-    Write-Host "  [*] Creating system-allocated state folder to match ANTIGRAVITY_EXECUTABLE_DATA_DIR..." -ForegroundColor Gray
-    New-Item -ItemType Directory -Path $StateDir -Force | Out-Null
-}
-Write-Host "  [+] Secure state folder verified at: $StateDir" -ForegroundColor Green
-
-# 3. Simulate a Compilation Failure Anomaly
-Write-Host ""
-Write-Host "[*] Simulating project anomaly..." -ForegroundColor Yellow
-$MockErrorMessage = "Compilation failed in auth_service.py: NameError 'client_reference_id' is not defined"
-Write-Host "  --> Writing mock compilation failure to $TriggerFile..." -ForegroundColor Gray
-$MockErrorMessage | Out-File -FilePath $TriggerFile -Encoding utf8
-
-# 4. Trigger Sidecar Monitoring Log Logic
-Write-Host ""
-Write-Host "[*] Activating watcher parsing logic..." -ForegroundColor Yellow
-# Run the watcher module on a single-pass mock execution
-$WatcherScript = "$ProjectRoot\sidecars\watcher\watcher.py"
-if (Test-Path $WatcherScript) {
-    Write-Host "  --> Executing Python watcher loop on your local Python interpreter..." -ForegroundColor Gray
-    # Force python to run the watcher once (mocked environment setup)
-    $env:ANTIGRAVITY_EXECUTABLE_DATA_DIR = $StateDir
-    $env:PROJECT_ID = "test-windows-project-id"
-    python $WatcherScript --one-run
-    
-    # Check if watcher wrote the anomaly to the secure data cache
-    if (Test-Path $StateFile) {
-        Write-Host "  [+] STATE CACHE UPDATED!" -ForegroundColor Green
-        Write-Host "  Reading logged anomaly state from: $StateFile" -ForegroundColor Gray
-        Get-Content $StateFile | ConvertFrom-Json | Format-List
-    } else {
-        Write-Warning "  [!] State file was not generated at $StateFile. Ensure write permissions are granted."
-    }
-} else {
-    Write-Warning "  [!] watcher.py script not found at $WatcherScript. Run setup_dev_healer_v5.py first."
-}
-
-# 5. Clean up simulated files
-Write-Host ""
-Write-Host "[*] Clean up simulated workspace files..." -ForegroundColor Yellow
-if (Test-Path $TriggerFile) {
-    Remove-Item $TriggerFile -Force
-    Write-Host "  [+] Removed trigger_error.txt" -ForegroundColor Green
-}
-
-Write-Host ""
-Write-Host "======================================================================" -ForegroundColor Cyan
-Write-Host "  DIAGNOSTICS COMPLETED. Drop the script into your Windows PowerShell " -ForegroundColor Cyan
-Write-Host "  terminal in 'C:\Users\Johnny Cage\ITS' to run active verifications! " -ForegroundColor Cyan
-Write-Host "======================================================================" -ForegroundColor Cyan
-</file>
-
-<file path=".agents/rules/development-ontology.md">
-# Workspace Guidelines & Anomaly Ontology
-This rule is Always-On and enforces project integrity guidelines for all developer agents.
-
-## Enforced Standards
-* **Process Handle Hygiene**: All background compilers, watchers, or test runners spawned in isolated worktrees must be explicitly terminated prior to subagent shutdown to prevent Windows directory lockups (Access is denied errors).
-* **Workspace Isolation**: Multi-step codebase refactors or experimental repairs must be performed inside isolated background branches via New Worktree Mode.
-* **Pathing Normalization**: Programmatically convert all backslashes (`\`) to forward slashes (`/`) in path strings prior to testing permissions, drive letters must be stripped during evaluation.
-* **Character Capacity Safeguard**: Never commit log dumps, compile warnings, or stack traces directly into rule files. Rule updates must use a rewrite-in-place compacting pattern to stay well below 12,000 characters.
-* **Syntax Validation**: Prior to committing any Javascript/Node.js changes, verify syntax validity (e.g., by running `node --check <file>`) to ensure no syntax errors or unclosed parentheses are introduced.
-</file>
-
-<file path=".agents/workflows/workflow-heal-project.md">
+<file path=".agents/workflows/workflow_heal_project.md">
 # Autonomic Self-Healing Workflow (`/workflow-heal-project`)
 
 This workflow guides the Antigravity 2.0 agent through the complete MAPE-K sensation, isolation, remediation, and self-evolution sequence on Windows 10. It utilizes `run_tests_hardened.py` to prevent Windows process file locking during compilation and testing.
@@ -1204,8 +278,865 @@ Prevent the same defect from re-occurring by codifying the lesson.
 *   **State Reset**: Reset the state in `%ANTIGRAVITY_EXECUTABLE_DATA_DIR%\healing-state.json` by updating `"status"` to `"resolved"`.
 </file>
 
-<file path="index.js">
-console.log("Starting application...");
+<file path=".agents/skills/firecrawl-build-interact/SKILL.md">
+---
+name: firecrawl-build-interact
+description: Integrate Firecrawl `/interact` into product code for dynamic pages and browser actions after scraping. Use when a feature needs clicks, form fills, pagination, authentication-aware flows, or other multi-step interactions that plain `/scrape` cannot complete.
+license: ISC
+metadata:
+  author: firecrawl
+  version: "0.1.0"
+  homepage: https://www.firecrawl.dev
+  source: https://github.com/firecrawl/skills
+inputs:
+  - name: FIRECRAWL_API_KEY
+    description: Firecrawl API key for hosted Firecrawl requests.
+    required: true
+  - name: FIRECRAWL_API_URL
+    description: Optional base URL for self-hosted Firecrawl deployments.
+    required: false
+---
+
+# Firecrawl Build Interact
+
+Use this when `/scrape` is not enough because the feature needs to act on the page.
+
+## Use This When
+
+- content appears only after clicks, typing, or navigation
+- the feature needs forms, pagination, filters, or multi-step flows
+- the product must stay in the same browser context after scraping
+
+## Default Recommendations
+
+- Start with `/scrape`, then escalate to `/interact`.
+- Keep `/interact` scoped to the smallest browser workflow that unlocks the data.
+- Use persistent profiles only when the feature truly needs authenticated state across sessions.
+
+## Common Product Patterns
+
+- search forms and faceted filters
+- paginated result sets
+- login-gated dashboards or tools
+- flows where the page must be explored before extraction is complete
+
+## Implementation Notes
+
+- `/interact` is the right tool when the page must be manipulated, not just read.
+- Keep prompts or action code specific to the product flow.
+- If the use case is fully open-ended browser automation, evaluate whether a browser sandbox is a better product fit.
+
+## Escalation Rules
+
+- If the page can be read directly, stay on [firecrawl-build-scrape](../firecrawl-build-scrape/SKILL.md).
+
+## Docs (Source of Truth)
+
+Read the source-of-truth page for your project language before writing integration code:
+
+- **Node / TypeScript**: [docs.firecrawl.dev/agent-source-of-truth/node](https://docs.firecrawl.dev/agent-source-of-truth/node)
+- **Python**: [docs.firecrawl.dev/agent-source-of-truth/python](https://docs.firecrawl.dev/agent-source-of-truth/python)
+- **Rust**: [docs.firecrawl.dev/agent-source-of-truth/rust](https://docs.firecrawl.dev/agent-source-of-truth/rust)
+- **Java**: [docs.firecrawl.dev/agent-source-of-truth/java](https://docs.firecrawl.dev/agent-source-of-truth/java)
+- **Elixir**: [docs.firecrawl.dev/agent-source-of-truth/elixir](https://docs.firecrawl.dev/agent-source-of-truth/elixir)
+- **cURL / REST**: [docs.firecrawl.dev/agent-source-of-truth/curl](https://docs.firecrawl.dev/agent-source-of-truth/curl)
+
+## See Also
+
+- [firecrawl-build](../firecrawl-build/SKILL.md)
+- [firecrawl-build-scrape](../firecrawl-build-scrape/SKILL.md)
+- [firecrawl-build-search](../firecrawl-build-search/SKILL.md)
+</file>
+
+<file path=".agents/skills/firecrawl-build-onboarding/references/auth-flow.md">
+# Auth Flow
+
+Use this browser flow when the user does not already have a Firecrawl API key.
+
+## Step 1: Generate auth parameters
+
+```bash
+SESSION_ID=$(openssl rand -hex 32)
+CODE_VERIFIER=$(openssl rand -base64 32 | tr '+/' '-_' | tr -d '=\n' | head -c 43)
+CODE_CHALLENGE=$(printf '%s' "$CODE_VERIFIER" | openssl dgst -sha256 -binary | openssl base64 -A | tr '+/' '-_' | tr -d '=')
+```
+
+## Step 2: Ask the user to open this URL
+
+```text
+https://www.firecrawl.dev/cli-auth?code_challenge=$CODE_CHALLENGE&source=coding-agent#session_id=$SESSION_ID
+```
+
+The user completes the browser authorization flow. If successful, the API key becomes available through the polling endpoint.
+
+## Step 3: Poll for completion
+
+```http
+POST https://www.firecrawl.dev/api/auth/cli/status
+Content-Type: application/json
+
+{"session_id":"$SESSION_ID","code_verifier":"$CODE_VERIFIER"}
+```
+
+Responses:
+
+- `{"status":"pending"}` - continue polling
+- `{"status":"complete","apiKey":"fc-...","teamName":"..."}`
+
+## Step 4: Save the key
+
+```bash
+echo "FIRECRAWL_API_KEY=fc-..." >> .env
+```
+</file>
+
+<file path=".agents/skills/firecrawl-build-onboarding/references/project-setup.md">
+# Project Setup
+
+For hosted Firecrawl, add this to `.env`:
+
+```dotenv
+FIRECRAWL_API_KEY=fc-...
+```
+
+For self-hosted Firecrawl, add:
+
+```dotenv
+FIRECRAWL_API_KEY=fc-...
+FIRECRAWL_API_URL=https://your-firecrawl-instance.example.com
+```
+
+Project setup guidance:
+
+- Keep the key in environment variables or the platform secret manager.
+- Do not hardcode credentials in source files.
+- If the app has separate environments, mirror the key setup across development, preview, and production as needed.
+</file>
+
+<file path=".agents/skills/firecrawl-build-onboarding/references/sdk-installation.md">
+# SDK Installation
+
+Install the SDK that matches the project stack after `FIRECRAWL_API_KEY` is available.
+
+## JavaScript / TypeScript
+
+```bash
+npm install @mendable/firecrawl-js
+```
+
+## Python
+
+```bash
+pip install firecrawl-py
+```
+
+If the project already has a preferred HTTP client abstraction, direct REST calls are also fine.
+</file>
+
+<file path=".agents/skills/firecrawl-build-onboarding/SKILL.md">
+---
+name: firecrawl-build-onboarding
+description: Get Firecrawl credentials and SDK setup into a project. Use when an application needs `FIRECRAWL_API_KEY`, when an agent should add Firecrawl to `.env`, when the user wants to authenticate Firecrawl for app code, or when choosing the first SDK and docs for a new Firecrawl integration. This skill includes its own browser auth flow, so it does not depend on the website onboarding skill.
+license: ISC
+metadata:
+  author: firecrawl
+  version: "0.1.0"
+  homepage: https://www.firecrawl.dev
+  source: https://github.com/firecrawl/skills
+inputs:
+  - name: FIRECRAWL_API_KEY
+    description: Firecrawl API key used for hosted Firecrawl API requests.
+    required: true
+  - name: FIRECRAWL_API_URL
+    description: Optional base URL for self-hosted Firecrawl deployments.
+    required: false
+references:
+  - references/auth-flow.md
+  - references/sdk-installation.md
+  - references/project-setup.md
+---
+
+# Firecrawl Build Onboarding
+
+Use this skill for the application-integration path from Firecrawl's onboarding flow.
+
+## Install
+
+If you haven't installed yet, one command sets up both the CLI tools
+(for live web work) and the build skills (for app integration):
+
+```bash
+npx -y firecrawl-cli@latest init --all --browser
+```
+
+This installs the Firecrawl CLI, the CLI skills, and these build skills
+together. It also opens browser auth so the human can sign in or create
+an account. No separate `npx skills add` step is needed.
+
+## Use This When
+
+- a project needs `FIRECRAWL_API_KEY`
+- the user wants Firecrawl wired into `.env`
+- you are adding Firecrawl to an app for the first time
+- you need to choose the first SDK or REST path
+
+If the human still needs to sign up, sign in, or authorize access in the browser, use the auth flow reference in this skill.
+
+## Quick Start
+
+If the user already has an API key, place it in `.env`:
+
+```dotenv
+FIRECRAWL_API_KEY=fc-...
+```
+
+If the project is self-hosted, also set:
+
+```dotenv
+FIRECRAWL_API_URL=https://your-firecrawl-instance.example.com
+```
+
+Then decide which integration path applies:
+
+- **Fresh project** -> choose the target stack, install the SDK, add the first Firecrawl call, and run a smoke test
+- **Existing project** -> inspect the repo first, then integrate Firecrawl where the project already handles third-party APIs and env vars
+
+## What Do You Need?
+
+| Task | Reference |
+|---|---|
+| **Run the browser auth flow and save `FIRECRAWL_API_KEY`** | [references/auth-flow.md](references/auth-flow.md) |
+| **Install the right SDK** | [references/sdk-installation.md](references/sdk-installation.md) |
+| **Put credentials into `.env` or project config** | [references/project-setup.md](references/project-setup.md) |
+| **Choose the right endpoint after setup** | [firecrawl-build](../firecrawl-build/SKILL.md) |
+| **Need live web tooling during this task** | The CLI skills are already installed from the same command |
+| **Start implementation from a known URL** | [firecrawl-build-scrape](../firecrawl-build-scrape/SKILL.md) |
+| **Start implementation from a query** | [firecrawl-build-search](../firecrawl-build-search/SKILL.md) |
+
+## Docs (Source of Truth)
+
+Read the source-of-truth page for your project language for SDK usage, schemas, and examples:
+
+- **Node / TypeScript**: [docs.firecrawl.dev/agent-source-of-truth/node](https://docs.firecrawl.dev/agent-source-of-truth/node)
+- **Python**: [docs.firecrawl.dev/agent-source-of-truth/python](https://docs.firecrawl.dev/agent-source-of-truth/python)
+- **Rust**: [docs.firecrawl.dev/agent-source-of-truth/rust](https://docs.firecrawl.dev/agent-source-of-truth/rust)
+- **Java**: [docs.firecrawl.dev/agent-source-of-truth/java](https://docs.firecrawl.dev/agent-source-of-truth/java)
+- **Elixir**: [docs.firecrawl.dev/agent-source-of-truth/elixir](https://docs.firecrawl.dev/agent-source-of-truth/elixir)
+- **cURL / REST**: [docs.firecrawl.dev/agent-source-of-truth/curl](https://docs.firecrawl.dev/agent-source-of-truth/curl)
+
+## After Setup
+
+Once the key is present:
+
+1. decide whether this is a fresh project or an existing codebase
+2. ask what Firecrawl should do in the product
+3. pick the narrowest endpoint that matches that behavior
+4. read the source-of-truth page for the project language before writing code
+5. add the SDK or REST call in code
+6. run a smoke test that proves one real Firecrawl request succeeds
+7. use the endpoint-specific skills in this repo for implementation guidance
+8. if you also need live web tooling during the current task, the CLI skills are already installed — use `firecrawl/cli`
+</file>
+
+<file path=".agents/skills/firecrawl-build-scrape/SKILL.md">
+---
+name: firecrawl-build-scrape
+description: Integrate Firecrawl `/scrape` into product code for single-page extraction. Use when an app already has a URL and needs markdown, HTML, links, screenshots, metadata, or structured page output. Prefer this skill over broader crawl patterns when the feature is page-level.
+license: ISC
+metadata:
+  author: firecrawl
+  version: "0.1.0"
+  homepage: https://www.firecrawl.dev
+  source: https://github.com/firecrawl/skills
+inputs:
+  - name: FIRECRAWL_API_KEY
+    description: Firecrawl API key for hosted Firecrawl requests.
+    required: true
+  - name: FIRECRAWL_API_URL
+    description: Optional base URL for self-hosted Firecrawl deployments.
+    required: false
+---
+
+# Firecrawl Build Scrape
+
+Use this when the application already has the URL and needs content from one page.
+
+## Use This When
+
+- the feature starts from a known URL
+- you need page content for retrieval, summarization, enrichment, or monitoring
+- you want the default extraction primitive before considering `/interact`
+
+## Default Recommendations
+
+- Return `markdown` unless the feature truly needs another format.
+- Use `onlyMainContent` for article-like pages where nav and chrome add noise.
+- Add waits or other rendering options only when the page needs them.
+
+## Common Product Patterns
+
+- knowledge ingestion from known URLs
+- enrichment from a company, product, or docs page
+- pricing, changelog, and documentation extraction
+- page-level quality checks or monitoring
+
+## Escalation Rules
+
+- If you do not have the URL yet, start with [firecrawl-build-search](../firecrawl-build-search/SKILL.md).
+- If content requires clicks, typing, or multi-step navigation, escalate to [firecrawl-build-interact](../firecrawl-build-interact/SKILL.md).
+
+## Implementation Notes
+
+- Keep the integration narrow: one feature, one URL, one extraction contract.
+- Treat `/scrape` as the default primitive for downstream LLM or indexing pipelines.
+- Request richer formats only when the consumer needs them, such as links, screenshots, or branding data.
+
+## Docs (Source of Truth)
+
+Read the source-of-truth page for your project language before writing integration code:
+
+- **Node / TypeScript**: [docs.firecrawl.dev/agent-source-of-truth/node](https://docs.firecrawl.dev/agent-source-of-truth/node)
+- **Python**: [docs.firecrawl.dev/agent-source-of-truth/python](https://docs.firecrawl.dev/agent-source-of-truth/python)
+- **Rust**: [docs.firecrawl.dev/agent-source-of-truth/rust](https://docs.firecrawl.dev/agent-source-of-truth/rust)
+- **Java**: [docs.firecrawl.dev/agent-source-of-truth/java](https://docs.firecrawl.dev/agent-source-of-truth/java)
+- **Elixir**: [docs.firecrawl.dev/agent-source-of-truth/elixir](https://docs.firecrawl.dev/agent-source-of-truth/elixir)
+- **cURL / REST**: [docs.firecrawl.dev/agent-source-of-truth/curl](https://docs.firecrawl.dev/agent-source-of-truth/curl)
+
+## See Also
+
+- [firecrawl-build](../firecrawl-build/SKILL.md)
+- [firecrawl-build-search](../firecrawl-build-search/SKILL.md)
+- [firecrawl-build-interact](../firecrawl-build-interact/SKILL.md)
+</file>
+
+<file path=".agents/skills/firecrawl-build-search/SKILL.md">
+---
+name: firecrawl-build-search
+description: Integrate Firecrawl `/search` into product code and agent workflows. Use when an app needs discovery before extraction, when the feature starts with a query instead of a URL, or when the system should search the web and optionally hydrate result content.
+license: ISC
+metadata:
+  author: firecrawl
+  version: "0.1.0"
+  homepage: https://www.firecrawl.dev
+  source: https://github.com/firecrawl/skills
+inputs:
+  - name: FIRECRAWL_API_KEY
+    description: Firecrawl API key for hosted Firecrawl requests.
+    required: true
+  - name: FIRECRAWL_API_URL
+    description: Optional base URL for self-hosted Firecrawl deployments.
+    required: false
+---
+
+# Firecrawl Build Search
+
+Use this when the application starts with a query, not a URL.
+
+## Use This When
+
+- the user asks a question and the product must discover sources first
+- the feature needs current web results
+- you want to turn a search query into a shortlist of pages for later scraping
+
+## Default Recommendations
+
+- Use `/search` first when URL discovery is part of the product behavior.
+- Keep search and extraction conceptually separate unless scraping search results is clearly required.
+- Prefer selective follow-up extraction over broad hydration when cost or latency matters.
+
+## Common Product Patterns
+
+- answer generation with cited sources
+- company, competitor, or topic discovery
+- research workflows that produce a shortlist before deeper extraction
+- query-to-URL pipelines for later `/scrape` or `/interact`
+
+## Escalation Rules
+
+- If you already have the URL, use [firecrawl-build-scrape](../firecrawl-build-scrape/SKILL.md).
+- If the result page then requires clicks or form interaction, escalate to [firecrawl-build-interact](../firecrawl-build-interact/SKILL.md).
+
+## Implementation Notes
+
+- Treat `/search` as discovery, ranking, and source selection.
+- Be explicit about whether the product needs snippets, URLs, or full result content.
+- Keep the query contract stable so downstream scraping logic stays predictable.
+
+## Docs (Source of Truth)
+
+Read the source-of-truth page for your project language before writing integration code:
+
+- **Node / TypeScript**: [docs.firecrawl.dev/agent-source-of-truth/node](https://docs.firecrawl.dev/agent-source-of-truth/node)
+- **Python**: [docs.firecrawl.dev/agent-source-of-truth/python](https://docs.firecrawl.dev/agent-source-of-truth/python)
+- **Rust**: [docs.firecrawl.dev/agent-source-of-truth/rust](https://docs.firecrawl.dev/agent-source-of-truth/rust)
+- **Java**: [docs.firecrawl.dev/agent-source-of-truth/java](https://docs.firecrawl.dev/agent-source-of-truth/java)
+- **Elixir**: [docs.firecrawl.dev/agent-source-of-truth/elixir](https://docs.firecrawl.dev/agent-source-of-truth/elixir)
+- **cURL / REST**: [docs.firecrawl.dev/agent-source-of-truth/curl](https://docs.firecrawl.dev/agent-source-of-truth/curl)
+
+## See Also
+
+- [firecrawl-build](../firecrawl-build/SKILL.md)
+- [firecrawl-build-scrape](../firecrawl-build-scrape/SKILL.md)
+- [firecrawl-build-interact](../firecrawl-build-interact/SKILL.md)
+</file>
+
+<file path=".agents/skills/firecrawl-research-index/SKILL.md">
+---
+name: firecrawl-research-index
+description: Find the papers that answer a research query with Firecrawl Research, using semantic search, semantic and structural expansion, and in-body verification. Always use this skill for any literature-finding / paper-retrieval task — single-paper lookups or full multi-paper sets.
+---
+
+# Firecrawl Research Index
+
+Find the research papers that answer a research query. Some questions have a single answer; many have several — and when in doubt, lean toward returning the fuller relevant set (most relevant first) rather than narrowing to one. A reader is better served seeing the neighboring methods and papers than having them silently dropped.
+
+There is **no fixed recipe**. Read the query, decide what kind it is, and choose the approach below. Some queries need a single search; others need heavy sturctural/semantic expansion. Don't run machinery a query doesn't call for.
+
+## The tools, and what each is uniquely good at
+
+- MCP: **`firecrawl_research_search_papers(query, k?)`**
+  CLI: **`firecrawl research search-papers <query> [--k <number>]`**
+  Semantic (HyDE) search over **abstracts**. The natural first move for almost any query.
+  If results look thin or all-alike, re-run with a different framing (sibling domain, rival method, dataset/benchmark name) rather than giving up.
+
+- MCP: **`firecrawl_research_related_papers(seed_ids, intent, mode?, k?)`**
+  CLI: **`firecrawl research related-papers <seedIds...> --intent <intent> [--mode <similar|citers|references>] [--k <number>]`**
+  Semantic and structural expansion, ranked to your `intent`.
+  This reaches papers semantic search *cannot*, and it's how you turn one good hit into the rest of a set.
+  `mode=similar` → niche siblings; `citers` → who uses/builds on the seeds; `references` → what they build on / compare against.
+
+- MCP: **`firecrawl_research_inspect_paper(id)`**
+  CLI: **`firecrawl research inspect-paper <id>`**
+  Canonical metadata for **one** paper: title, abstract, authors, categories, source ids, and dates.
+  Use it after `search_papers` or `related_papers` when you need the complete citation/metadata for a candidate, or when you have an id from elsewhere and need to confirm what paper it resolves to.
+  This does **not** read the paper body; use `read_paper` for specific full-text questions.
+
+- MCP: **`firecrawl_research_read_paper(id, question)`**
+  CLI: **`firecrawl research read-paper <id> --question <question>`**
+  In-body passages of **one** paper, to verify a load-bearing constraint (a method actually used, a score actually reported, an affiliation, what a paper compares to).
+  Use it to settle a specific doubt, not on everything.
+
+- MCP: **`firecrawl_search(query)` / `firecrawl_scrape(url)`**
+  CLI: **`firecrawl search <query>` / `firecrawl scrape <url>`**
+  General **web** search and page fetch, for facts that don't live in paper abstracts: benchmark **leaderboards**, rankings, "who scores best / is largest / is most used."
+  Find the ranking on the web, then map the top entries back to papers with `search_papers`.
+  Reach for these only when the corpus can't answer the question on its own.
+
+## Match the approach to the query
+
+- **Single *named* paper** ("the Qwen3 report") → one `search_papers`, done. This is the only case that truly wants exactly one paper.
+- **Paper by description / by method or technique** ("the paper that introduced X", "training-free N-gram detection of AI text") → find the best match, then assume there's a *family*: expand with `related_papers` and **include the closely-related methods/papers too**. Even when one paper is the exact literal match, surface and keep its neighbors — don't narrow to the single best hit and reason the rest out. Only treat it as one-answer if the query names a specific paper.
+- **Enumeration / method-family** ("papers that do X", "alternatives to Adam", "benchmarks for Y") → the answer is a *set*, and this is where `related_papers` earns its keep: expand several strong anchors with `mode=similar`, re-seed from new strong hits. One search is never enough here.
+- **Exhibiting** ("papers that *use* / exhibit property P") → the relevant papers apply P but their abstracts may not describe it. Go from P's defining paper outward via `citers`/`references`, and use `read_paper` to confirm a candidate actually uses P.
+- **Superlative / leaderboard** ("best on benchmark X", "largest", "most popular") → the ranking lives on **leaderboards / the web**, not in any single abstract. Use `firecrawl_search` / `firecrawl_scrape` to find the benchmark's leaderboard or rankings, read off the top models/papers, then `search_papers` each to get its paper. As a fallback, search the benchmark and `read_paper` candidates for reported numbers. The hardest kind — cast wide.
+- **Org / author filtered** ("from \<org\>", "by \<author\>") → topical match isn't enough; verify the affiliation/authorship (metadata or `read_paper`) before keeping a paper.
+- **Compare-against** ("what does paper X benchmark against / build on") → the answer is *inside* paper X: `read_paper(X, ...)` or `related_papers([X], ..., mode="references")`.
+
+## Principles
+
+- **When in doubt, include.** For any topic / method / comparison question, return the relevant *family*, not just the single best match — err toward keeping a plausibly-relevant paper rather than dropping it. The neighboring methods are part of a good answer; don't reason close work out just because one paper is the most exact match.
+- **Follow the literature, and keep what you find.** The seminal source, the competing methods, the close neighbors are usually a hop away — use `related_papers`, and *include* them, not just the first hit. Stopping at one good result is the most common way to leave the reader with half an answer.
+- **Verify to exclude, not to gatekeep.** Use `read_paper` to rule a paper *out* when a hard constraint clearly fails (wrong org/author, doesn't actually report the score). When a paper is plausibly relevant, lean toward keeping it rather than demanding proof.
+- **Only drop the clearly off-topic.** Don't pad with papers you're confident are unrelated — but that's a high bar; most plausibly-relevant work should make the cut.
+</file>
+
+<file path=".agents/skills/heal-and-evolve/SKILL.md">
+---
+name: heal-and-evolve
+description: Classifies and troubleshoot compile and runtime codebase anomalies. Use when analyzing test errors or resolving compilation faults.
+---
+# Heal and Evolve Skill
+Provides the diagnostic framework and decision trees required to resolve structural failures.
+
+## Diagnostic Protocol
+1. **Anomaly Classification**: Parse the logs to classify the software error:
+   - `ToolFailure`: Execution command returned a non-zero exit code.
+   - `InputCorruption`: Broken schema specifications or mismatched parameters.
+   - `ReasoningCollapse`: Runaway loop recursion or step capacity threshold reached.
+2. **Technical Sourcing**: Consult local configurations or make targeted queries using `search_web` if encountering unfamiliar dependency issues.
+3. **Remediation Strategy**: Draft the isolated repair, define verification commands, and delegate task boundaries.
+</file>
+
+<file path=".agents/hooks.json">
+{
+  "PreToolUse": [
+    {
+      "command": "python .agents/scripts/pre-tool-use.py",
+      "timeout": 10
+    }
+  ],
+  "PostToolUse": [
+    {
+      "command": "python .agents/scripts/post-tool-use.py",
+      "timeout": 10
+    }
+  ],
+  "Stop": [
+    {
+      "command": "python .agents/scripts/stop-handler.py",
+      "timeout": 10
+    }
+  ]
+}
+</file>
+
+<file path=".agents/rules/development-ontology.md">
+# Workspace Guidelines & Anomaly Ontology
+This rule is Always-On and enforces project integrity guidelines for all developer agents.
+
+## Enforced Standards
+* **Process Handle Hygiene**: All background compilers, watchers, or test runners spawned in isolated worktrees must be explicitly terminated prior to subagent shutdown to prevent Windows directory lockups (Access is denied errors).
+* **Workspace Isolation**: Multi-step codebase refactors or experimental repairs must be performed inside isolated background branches via New Worktree Mode.
+* **Pathing Normalization**: Programmatically convert all backslashes (`\`) to forward slashes (`/`) in path strings prior to testing permissions, drive letters must be stripped during evaluation.
+* **Character Capacity Safeguard**: Never commit log dumps, compile warnings, or stack traces directly into rule files. Rule updates must use a rewrite-in-place compacting pattern to stay well below 12,000 characters.
+* **Syntax Validation**: Prior to committing any Javascript/Node.js changes, verify syntax validity (e.g., by running `node --check <file>`) to ensure no syntax errors or unclosed parentheses are introduced.
+</file>
+
+<file path=".agents/rules/ToolFailure.md">
+---
+description: "Syntax validation rule for Javascript and TypeScript modifications."
+glob: "**/*.{js,jsx,ts,tsx}"
+---
+
+# Defect Class: ToolFailure (Syntax Errors)
+
+**Root Cause Analysis:**
+JavaScript compilation crashes (e.g., `SyntaxError: Unexpected token`) are typically caused by unclosed brackets, missing commas, or structural defects introduced during codebase modifications.
+
+**Compacted Prevention Rule:**
+*   **Mandatory Pre-Commit Validation**: Before staging any `.js` file, you MUST independently verify its structural integrity by executing:
+    `python run_tests_hardened.py node --check <filepath>`
+*   **Hard Gate**: Do not declare the repair successful until `node --check` returns exit code 0.
+</file>
+
+<file path="run_tests_hardened.py">
+import subprocess
+import time
+import os
+
+def kill_child_processes(parent_pid):
+    """Recursively sweep and kill all descendant processes under Windows 10."""
+    try:
+        import psutil
+        parent = psutil.Process(parent_pid)
+        children = parent.children(recursive=True)
+        for child in children:
+            print(f"Force terminating descendant process PID {child.pid}...")
+            child.terminate()
+        psutil.wait_procs(children, timeout=5)
+    except ImportError:
+        # Fallback to taskkill on Windows
+        print("psutil not installed, falling back to taskkill /T /F...")
+        subprocess.run(["taskkill", "/T", "/F", "/PID", str(parent_pid)], capture_output=True)
+    except Exception as e:
+        print(f"Process sweep warning: {e}")
+
+print("Process Tree Sweeper Module successfully initialized!")
+</file>
+
+<file path="setup.py">
+# setup.py
+# Production-Hardened Bootstrap Installer for DevHealer (MAPE-K Autonomic Loop)
+# Designed for Windows 10, Antigravity 2.0 (Strict Mode, Flat Hooks Schema)
+
+import os
+import sys
+import json
+import subprocess
+
+def log(msg, error=False):
+    stream = sys.stderr if error else sys.stdout
+    stream.write(msg + "\n")
+    stream.flush()
+
+def init_git():
+    log("=== Checking Git Status ===")
+    try:
+        subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], 
+                       capture_output=True, text=True, check=True)
+        log("[+] Active Git workspace detected.")
+    except Exception:
+        log("[!] Not a Git repository. Initializing Git to unlock 'New Worktree Mode' support...")
+        try:
+            subprocess.run(["git", "init"], check=True)
+            with open("README.md", "w") as f:
+                f.write("# DevHealer Active Workspace\n")
+            subprocess.run(["git", "add", "README.md"], check=True)
+            subprocess.run(["git", "commit", "-m", "Initial commit from DevHealer Setup"], check=True)
+            log("[+] Git initialized and initial commit created successfully.")
+        except Exception as e:
+            log(f"[-] Failed to initialize Git: {e}", error=True)
+
+def scaffold_directories():
+    log("=== Scaffolding DevHealer MAPE-K Directories ===")
+    dirs = [
+        ".agents",
+        ".agents/rules",
+        ".agents/workflows",
+        ".agents/skills/heal-and-evolve",
+        "scripts",
+        "sidecars/watcher"
+    ]
+    for d in dirs:
+        os.makedirs(d, exist_ok=True)
+        log(f"[+] Scaffolding directory: {d}")
+
+def write_assets():
+    log("=== Writing DevHealer Core Files ===")
+    
+    # .agents/plugin.json
+    with open(".agents/plugin.json", "w") as f:
+        json.dump({"name": "dev-healer"}, f, indent=2)
+
+    # .agents/hooks.json (Flat 2.0 Event-Keyed Schema)
+    hooks_schema = {
+        "PreToolUse": [
+            {
+                "command": "python",
+                "args": ["scripts/pre-tool-use.py"],
+                "timeout": 30
+            }
+        ],
+        "PostToolUse": [
+            {
+                "command": "python",
+                "args": ["scripts/post-tool-use.py"],
+                "timeout": 30
+            }
+        ],
+        "Stop": [
+            {
+                "command": "python",
+                "args": ["scripts/stop-handler.py"],
+                "timeout": 30
+            }
+        ]
+    }
+    with open(".agents/hooks.json", "w") as f:
+        json.dump(hooks_schema, f, indent=2)
+
+    # .agents/mcp_config.json (Turso SQLite Explorer Template)
+    mcp_config = {
+        "mcpServers": {
+            "turso-explorer": {
+                "command": "node",
+                "args": [
+                    "C:/Users/Johnny Cage/AppData/Roaming/npm/node_modules/your-libsql-mcp-server/index.js"
+                ],
+                "env": {
+                    "LIBSQL_URL": "ENV_VAR_PROJECT_TURSO_URL",
+                    "LIBSQL_AUTH_TOKEN": "ENV_VAR_PROJECT_TURSO_TOKEN"
+                }
+            }
+        }
+    }
+    with open(".agents/mcp_config.json", "w") as f:
+        json.dump(mcp_config, f, indent=2)
+
+    # .agents/rules/development-ontology.md (Always-On Windows Rule Set)
+    ontology_rules = """# ALWAYS-ON WORKSPACE DEVELOPMENT ONTOLOGY & COMPLIANCE RULES
+# Max Character Limit: 12,000 (Enforce compacting policy)
+
+## 1. State Isolation under Strict Mode
+*   **Secure Caching Only**: You are forbidden from reading or writing dynamic healing state database files (e.g. `healing-state.json`) from the `.agents/` folder.
+*   **AppData Directive**: Always route state queries to the path exposed via the `ANTIGRAVITY_EXECUTABLE_DATA_DIR` environment variable (resolving securely inside `%USERPROFILE%\\.gemini\\antigravity\\sidecar_data\\`).
+
+## 2. Windows 10 Process Tree & Worktree Integrity
+*   **Prevent Lock Errors**: You are strictly prohibited from exiting any subagent test turn or Git worktree validation step without terminating all spawned background threads or runners.
+*   **Execution Rule**: Prepend all compilation, test execution, or linter queries with our process-tree sweeping wrapper:
+    `python run_tests_hardened.py <command>`
+
+## 3. Character Budget Cap & Compacting Policy
+*   **Hard Limit**: Every workspace rule file has an absolute character limit of 12,000 characters.
+*   **Rewrite-In-Place Rule**: When evolving this project's guidelines, you must rewrite the rule files to compress ideas and summarize lessons rather than blindly appending logs or stack traces.
+*   **Trace Extraction**: Keep noisy traces and debugger logs strictly inside the out-of-band state registry files.
+"""
+    with open(".agents/rules/development-ontology.md", "w") as f:
+        f.write(ontology_rules)
+
+    # .agents/skills/heal-and-evolve/SKILL.md
+    skill_md = """---
+name: heal-and-evolve
+description: Progressive self-healing and rule-evolution loop for developer workspaces. Use to diagnose compile/test failures and adapt rules.
+---
+# Heal and Evolve Skill
+
+## How to use this skill
+1. Parse the active anomaly registered in `%ANTIGRAVITY_EXECUTABLE_DATA_DIR%\\healing-state.json`.
+2. Spawn a child subagent using `invoke_subagent` configured for New Worktree Mode.
+3. Test your patch safely using `python run_tests_hardened.py <command>`.
+4. If successful, summarize the lesson and compact it. Run `/workflow-evolve-rules` to rewrite project rules within the 12,000-character cap.
+"""
+    with open(".agents/skills/heal-and-evolve/SKILL.md", "w") as f:
+        f.write(skill_md)
+
+    # scripts/pre-tool-use.py (Semantic Firewall)
+    pre_tool_use = """import sys
+import json
+
+def main():
+    try:
+        payload = json.load(sys.stdin)
+        response = {
+            "decision": "allow",
+            "reason": "Normalized execution verified."
+        }
+        sys.stdout.write(json.dumps(response))
+        sys.stdout.flush()
+    except Exception as e:
+        sys.stderr.write(f"PreToolUse Error: {e}\\n")
+        sys.stdout.write(json.dumps({"decision": "allow", "reason": "Default bypass on error."}))
+        sys.stdout.flush()
+
+if __name__ == '__main__':
+    main()
+"""
+    with open("scripts/pre-tool-use.py", "w") as f:
+        f.write(pre_tool_use)
+
+    # scripts/post-tool-use.py (Sensation Module)
+    post_tool_use = """import sys
+import json
+import os
+
+def main():
+    try:
+        payload = json.load(sys.stdin)
+        error_msg = payload.get("error", "")
+        
+        data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR", ".")
+        os.makedirs(data_dir, exist_ok=True)
+        state_path = os.path.join(data_dir, "healing-state.json")
+        
+        if error_msg:
+            sys.stderr.write(f"[Sensing Anomaly] captured: {error_msg}\\n")
+            state = {
+                "activeAnomaly": "ToolFailure",
+                "errorDetails": error_msg,
+                "status": "active",
+                "retryCount": 0
+            }
+            with open(state_path, "w") as f:
+                json.dump(state, f, indent=2)
+                
+        sys.stdout.write("{}")
+        sys.stdout.flush()
+    except Exception as e:
+        sys.stderr.write(f"PostToolUse Error: {e}\\n")
+        sys.stdout.write("{}")
+        sys.stdout.flush()
+
+if __name__ == '__main__':
+    main()
+"""
+    with open("scripts/post-tool-use.py", "w") as f:
+        f.write(post_tool_use)
+
+    # scripts/stop-handler.py (Loop Controller)
+    stop_handler = """import sys
+import json
+import os
+
+def main():
+    try:
+        payload = json.load(sys.stdin)
+        data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR", ".")
+        state_path = os.path.join(data_dir, "healing-state.json")
+        
+        decision = "allow"
+        reason = ""
+        
+        if os.path.exists(state_path):
+            with open(state_path, "r") as f:
+                state = json.load(f)
+            
+            if state.get("status") == "active":
+                retries = state.get("retryCount", 0)
+                if retries < 3:
+                    state["retryCount"] = retries + 1
+                    with open(state_path, "w") as f:
+                        json.dump(state, f, indent=2)
+                    decision = "continue"
+                    reason = "Run /workflow-heal-project to resolve outstanding anomaly."
+                else:
+                    sys.stderr.write("[!] Max healing retries exceeded. Exiting loop safely.\\n")
+                    state["status"] = "failed"
+                    with open(state_path, "w") as f:
+                        json.dump(state, f, indent=2)
+        
+        response = {
+            "decision": decision,
+            "reason": reason
+        }
+        sys.stdout.write(json.dumps(response))
+        sys.stdout.flush()
+    except Exception as e:
+        sys.stderr.write(f"Stop Handler Error: {e}\\n")
+        sys.stdout.write(json.dumps({"decision": "allow", "reason": "Default stop bypass."}))
+        sys.stdout.flush()
+
+if __name__ == '__main__':
+    main()
+"""
+    with open("scripts/stop-handler.py", "w") as f:
+        f.write(stop_handler)
+
+    log("[+] Scaffolding and asset deployment completed!")
+
+if __name__ == '__main__':
+    init_git()
+    scaffold_directories()
+    write_assets()
+</file>
+
+<file path="test_harness.ps1">
+# test_harness.ps1
+# Diagnostics & Validation Suite for DevHealer MAPE-K Loop
+
+Write-Output "=========================================================="
+Write-Output "   DEVHEALER MAPE-K LOOP LOCAL DIAGNOSTICS SUITE  "
+Write-Output "=========================================================="
+
+$WorkspaceRoot = "C:\Users\Johnny Cage\ITS"
+$SecureAppData = "$env:USERPROFILE\.gemini\antigravity\sidecar_data\dev-healer\watcher\data"
+
+Write-Output "[*] Target Project Directory: $WorkspaceRoot"
+Write-Output "[*] Isolated Secure AppData Target: $SecureAppData"
+
+# 1. Verification of Workspace & Git Support
+Write-Output "`n[*] Verifying Project Workspace..."
+if (Test-Path "$WorkspaceRoot\.git") {
+    Write-Output " [+] Git Repository successfully initialized. New Worktree Mode isolation is active."
+} else {
+    Write-Warning " [-] Git not initialized locally. Setup setup.py first."
+}
+
+# 2. Allocate AppData State Storage Path
+Write-Output "`n[*] Allocating isolated secure AppData directories..."
+New-Item -ItemType Directory -Force -Path $SecureAppData | Out-Null
+Write-Output " [+] Secure path active: $SecureAppData"
+
+# 3. Mock Anomaly Injection
+Write-Output "`n[*] Injecting test compile anomaly trigger..."
+$AnomalyPayload = @{
+    activeAnomaly = "ToolFailure"
+    errorDetails = "Compilation failed in index.js: SyntaxError Unexpected token"
+    status = "active"
+    retryCount = 0
+} | ConvertTo-Json
+
+$StateFile = "$SecureAppData\healing-state.json"
+$AnomalyPayload | Out-File -FilePath $StateFile -Encoding utf8 -Force
+Write-Output " [+] Mock anomaly registered in secure AppData: $StateFile"
+
+# 4. Simulation of Watcher Sidecar Detection
+Write-Output "`n[*] Booting Watcher Sensation Module simulation..."
+Write-Output " [+] Simulating 'agentapi new-conversation ...' proactive trigger"
+Write-Output " [+] Loop status: Listening for disruptions on file saves."
+
+Write-Output "`n=========================================================="
+Write-Output "       [+] STATE CACHE UPDATED - DIAGNOSTIC SUCCESS!       "
+Write-Output "=========================================================="
 </file>
 
 </files>

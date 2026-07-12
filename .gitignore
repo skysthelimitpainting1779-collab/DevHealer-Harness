@@ -1,1 +1,11 @@
 .agents/mcp_config.json
+
+# Python environment
+__pycache__/
+*.pyc
+
+# Antigravity temp worktrees
+.agents/scratch/
+_worktree/
+update.lock
+last_conversations.json
