@@ -2,19 +2,19 @@
   "PreToolUse": [
     {
       "command": "python .agents/scripts/pre-tool-use.py",
-      "timeout": 10
+      "timeout": 15
     }
   ],
   "PostToolUse": [
     {
       "command": "python .agents/scripts/post-tool-use.py",
-      "timeout": 10
+      "timeout": 15
     }
   ],
   "Stop": [
     {
       "command": "python .agents/scripts/stop-handler.py",
-      "timeout": 10
+      "timeout": 15
     }
   ]
 }

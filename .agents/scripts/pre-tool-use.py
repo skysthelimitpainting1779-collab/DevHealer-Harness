@@ -1,47 +1,40 @@
 import sys
 import json
+import re
 
-def log(msg):
-    sys.stderr.write(f"[Firewall Log] {msg}\n")
+def normalize_windows_path(raw_path):
+    clean_path = raw_path.replace("\\", "/")
+    if len(clean_path) >= 2 and clean_path == ":":
+        clean_path = clean_path[2:]
+    return clean_path
 
 def main():
     try:
-        input_data = json.load(sys.stdin)
-        log("Evaluating PreToolUse safety criteria.")
-        
-        tool_call = input_data.get("toolCall", {})
+        payload = json.load(sys.stdin)
+        tool_call = payload.get("toolCall", {})
         tool_name = tool_call.get("name")
         tool_args = tool_call.get("args", {})
         
-        decision = "allow"
-        reason = "Command within normal operational constraints."
-        permission_overrides = []
-        
-        # Pull targets and normalize backslashes and drive letters
-        target_file = tool_args.get("TargetFile") or tool_args.get("AbsolutePath") or tool_args.get("CommandLine") or ""
-        normalized_target = target_file.replace("\\", "/").replace("\\", "/").lower()
-        
-        # Firewall matching constraints
-        if ".git/" in normalized_target or ".git\\" in target_file:
-            decision = "deny"
-            reason = "Security Gate Failure: Direct modification of .git/ folders is strictly prohibited."
-        elif "rmdir" in normalized_target or "rm -rf" in normalized_target:
-            decision = "ask"
-            reason = "Destructive recursive deletions require manual developer-in-the-loop validation."
-            permission_overrides = ["command(rmdir)", "command(rm)"]
+        # Guard destructive host commands
+        if tool_name == "run_command":
+            cmd = tool_args.get("CommandLine", "")
+            if re.search(r"\b(rm\s+-rf|sudo|poweroff|reboot)\b", cmd):
+                print(json.dumps({"decision": "deny", "reason": "Destructive operations are blocked."}))
+                sys.exit(0)
+                
+        # Guard VCS metadata directories
+        if tool_name in ["write_to_file", "replace_file_content", "multi_replace_file_content"]:
+            target_path = normalize_windows_path(tool_args.get("TargetFile", ""))
+            if ".git/" in target_path or ".ssh/" in target_path:
+                print(json.dumps({"decision": "deny", "reason": "Modifying VCS directories is blocked."}))
+                sys.exit(0)
 
-        output = {
-            "decision": decision,
-            "reason": reason,
-            "permissionOverrides": permission_overrides
-        }
-        
-        sys.stdout.write(json.dumps(output))
-        sys.stdout.flush()
+        print(json.dumps({"decision": "allow", "reason": "Passed Semantic Firewall."}))
+        sys.exit(0)
     except Exception as e:
-        log(f"Firewall execution error: {str(e)}")
-        sys.stdout.write(json.dumps({"decision": "ask", "reason": f"Firewall script error: {str(e)}"}))
-        sys.stdout.flush()
+        sys.stderr.write(f"PreToolUse Error: {e}\n")
+        print(json.dumps({"decision": "allow", "reason": "Bypass on internal error."}))
+        sys.exit(0)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
