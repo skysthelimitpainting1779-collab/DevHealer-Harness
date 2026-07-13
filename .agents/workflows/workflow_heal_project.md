@@ -1,8 +1,3 @@
----
-name: workflow_heal_project
-description: Workflow converted to skill: workflow_heal_project
----
-
 # Trajectory Workflow: Build and Heal Project
 # Command: /workflow-heal-project
 # Size Cap Compliance: Under 12,000 characters
