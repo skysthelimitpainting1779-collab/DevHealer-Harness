@@ -23,10 +23,15 @@ def main():
     
     # If the command failed, write to the devhealer_error.log for the sidecar to catch
     if result.returncode != 0:
-        error_log_path = os.path.join(os.getcwd(), ".agents", "logs", "devhealer_error.log")
+        data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
+        if not data_dir:
+            user_profile = os.environ.get("USERPROFILE", os.path.expanduser("~"))
+            data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
+            
+        error_log_path = os.path.join(data_dir, "devhealer_error.log")
         os.makedirs(os.path.dirname(error_log_path), exist_ok=True)
         
-        with open(error_log_path, "a") as f:
+        with open(error_log_path, "w") as f:
             f.write(f"\n--- ANOMALY DETECTED ---\n")
             f.write(f"Command: {' '.join(command)}\n")
             f.write(f"Exit Code: {result.returncode}\n")

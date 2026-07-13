@@ -43,7 +43,25 @@
       "type": "command",
       "command": "python",
       "args": [
+        "c:/Users/Johnny Cage/ITS/.agents/plugins/dev-healer/hooks/graphify-grep-enforcer.py"
+      ],
+      "timeout": 5,
+      "matcher": "default_api:grep_search"
+    },
+    {
+      "type": "command",
+      "command": "python",
+      "args": [
         "c:/Users/Johnny Cage/ITS/.agents/plugins/dev-healer/hooks/schema-validator.py"
+      ],
+      "timeout": 5,
+      "matcher": "*"
+    },
+    {
+      "type": "command",
+      "command": "python",
+      "args": [
+        "c:/Users/Johnny Cage/ITS/.agents/plugins/dev-healer/hooks/command-validator.py"
       ],
       "timeout": 5,
       "matcher": "*"

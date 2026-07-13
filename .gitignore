@@ -9,3 +9,6 @@ __pycache__/
 _worktree/
 update.lock
 last_conversations.json
+
+# Graphify Cache (Do not track massive graphs)
+graphify-out/

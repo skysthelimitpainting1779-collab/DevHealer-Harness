@@ -1,0 +1,13 @@
+# Graphify Ignore File
+node_modules/
+__pycache__/
+venv/
+env/
+.venv/
+dist/
+build/
+.next/
+graphify-out/
+*.log
+.gemini/
+.agents/scratch/
