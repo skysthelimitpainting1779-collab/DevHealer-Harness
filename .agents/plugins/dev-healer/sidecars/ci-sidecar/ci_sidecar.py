@@ -54,6 +54,28 @@ def main():
             current_commit = get_current_commit()
             current_branch = get_current_branch()
             
+            # 0. Enforce Auto-Commit / Git Discipline
+            status_res = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
+            if status_res.returncode == 0 and status_res.stdout.strip():
+                log("Uncommitted changes detected in repo. Enforcing Git Discipline...")
+                test_cmd = get_test_command()
+                can_commit = True
+                if test_cmd:
+                    log("Running pre-commit validation...")
+                    test_res = subprocess.run(test_cmd, capture_output=True, text=True)
+                    if test_res.returncode != 0:
+                        log("Pre-commit validation FAILED. Spawning DevHealer agent to fix code before committing.")
+                        subprocess.run(["agentapi", "new-conversation", "A background compilation error has been detected. Run: /workflow-heal-project"], shell=True)
+                        can_commit = False
+                
+                if can_commit:
+                    log("Validation passed. Auto-committing and pushing to remote.")
+                    subprocess.run(["git", "add", "-A"])
+                    subprocess.run(["git", "commit", "-m", "chore(auto): autonomous sidecar snapshot"])
+                    subprocess.run(["git", "push"])
+                    log("Auto-commit & push successful.")
+                    last_commit = get_current_commit() # Update internal state
+            
             # 1. Merge Conflict Detection
             is_conflict = detect_merge_conflict()
             if is_conflict and not conflict_handled:
