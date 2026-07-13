@@ -19,5 +19,15 @@
       ],
       "timeout": 15
     }
+  ],
+  "PreInvocation": [
+    {
+      "type": "command",
+      "command": "python",
+      "args": [
+        "c:/Users/Johnny Cage/ITS/.agents/plugins/dev-healer/hooks/cleanup-hook.py"
+      ],
+      "timeout": 15
+    }
   ]
 }

@@ -27,6 +27,7 @@ description: Build and heal project anomalies automatically
 ## Step 5: Resolve Anomaly
 *   Let the subagent resolve database schemas, linter bugs, or compile conflicts.
 *   Validate the fix using the `run_tests_hardened.py` wrapper to prevent background process locking.
+*   **TOKEN LIMITER:** Agents MUST use maximum brevity. Do not output full file contents. Return only exact file diffs and a strict 1-sentence summary of the fix.
 
 ## Step 6: Merge & Evolve Rules
 *   Cleanly teardown the worktree.
