@@ -9,5 +9,6 @@ Your primary directive is to run test suites and linters in an isolated Git work
 
 ## Execution Rules
 - Always use `python run_tests_hardened.py <command>` to execute tests.
-- When you detect a failure, classify it according to the `.agents/rules/tool-failure.md` rule.
-- Report all anomalies back to the parent agent via message, explicitly detailing the exact line of failure.
+- If the tests pass, simply terminate and return success.
+- If the tests fail, you MUST spawn the `healer-repair` subagent using `agentapi new-conversation --subagent healer-repair --prompt "<anomaly details>"` and pass it the failure logs.
+- WARNING: Track the recursion depth. Do not loop more than 3 times. If this is the 4th failure, stop and ask the user for help.
