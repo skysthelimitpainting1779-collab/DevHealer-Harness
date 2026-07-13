@@ -1,8 +1,3 @@
----
-name: workflow_evolve_rules
-description: workflow_evolve_rules workflow
----
-
 # Rule Evolution & Compacting Trajectory
 This workflow implements our strict code knowledge adaptation policy without breaching system file constraints.
 

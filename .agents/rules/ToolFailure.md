@@ -1,8 +1,3 @@
----
-description: "Syntax validation rule for Javascript and TypeScript modifications."
-glob: "**/*.{js,jsx,ts,tsx}"
----
-
 # Defect Class: ToolFailure (Syntax Errors)
 
 **Root Cause Analysis:**
