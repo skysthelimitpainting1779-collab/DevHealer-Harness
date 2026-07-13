@@ -1,3 +1,7 @@
+---
+name: workflow_heal_project
+description: Build and heal project anomalies automatically
+---
 # Trajectory Workflow: Build and Heal Project
 # Command: /workflow-heal-project
 # Size Cap Compliance: Under 12,000 characters
