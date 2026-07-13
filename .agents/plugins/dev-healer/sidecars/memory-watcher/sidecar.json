@@ -1,0 +1,6 @@
+{
+  "description": "DevHealer Memory Watcher",
+  "command": "python",
+  "args": ["watcher.py"],
+  "restart_policy": "always"
+}

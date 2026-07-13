@@ -1,0 +1,9 @@
+{
+  "description": "DevHealer SDK Autonomous Curator",
+  "builtin": "schedule",
+  "args": [
+    "0 * * * *",
+    "python",
+    "c:/Users/Johnny Cage/ITS/.agents/plugins/dev-healer/sdk_agents/curator.py"
+  ]
+}

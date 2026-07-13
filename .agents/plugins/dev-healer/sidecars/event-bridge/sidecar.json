@@ -1,0 +1,6 @@
+{
+  "description": "DevHealer Event Bridge",
+  "command": "python",
+  "args": ["event_bridge.py"],
+  "restart_policy": "always"
+}

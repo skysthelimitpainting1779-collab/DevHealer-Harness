@@ -1,0 +1,6 @@
+{
+  "description": "DevHealer Memory Curator",
+  "command": "python",
+  "args": ["curator_daemon.py"],
+  "restart_policy": "always"
+}

@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "dev-healer-brain": {
+      "command": "python",
+      "args": [
+        "c:/Users/Johnny Cage/ITS/.agents/plugins/dev-healer/mcp/server.py"
+      ],
+      "env": {
+        "PYTHONPATH": "c:/Users/Johnny Cage/ITS"
+      }
+    }
+  }
+}
