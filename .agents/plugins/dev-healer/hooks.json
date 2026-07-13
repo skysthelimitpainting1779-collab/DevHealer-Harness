@@ -28,7 +28,7 @@
         "c:/Users/Johnny Cage/ITS/.agents/plugins/dev-healer/hooks/posttool_episodic_capture.py"
       ],
       "timeout": 10,
-      "matcher": "run_command|write_to_file|invoke_subagent"
+      "matcher": "*"
     }
   ],
   "Stop": [
