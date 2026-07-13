@@ -1,6 +1,7 @@
 ---
-description: "Syntax validation rule for Javascript and TypeScript modifications."
-glob: "**/*.{js,jsx,ts,tsx}"
+trigger: always_on
+glob:
+description: tool-failure rule
 ---
 
 # Defect Class: ToolFailure (Syntax Errors)

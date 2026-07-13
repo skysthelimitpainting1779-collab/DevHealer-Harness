@@ -1,5 +1,6 @@
 ---
-name: development-ontology
+trigger: always_on
+glob:
 description: development-ontology rule
 ---
 

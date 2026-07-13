@@ -1,5 +1,6 @@
 ---
-name: memory-governance
+trigger: always_on
+glob:
 description: memory-governance rule
 ---
 
