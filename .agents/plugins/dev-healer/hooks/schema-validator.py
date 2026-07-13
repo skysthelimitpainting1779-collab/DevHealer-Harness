@@ -12,8 +12,13 @@ def check_frontmatter(content, required_keys):
     frontmatter = match.group(1)
     missing = []
     for key in required_keys:
-        if not re.search(r"^" + key + r"\s*:", frontmatter, re.MULTILINE):
+        match_key = re.search(r"^" + key + r"\s*:\s*(.*)", frontmatter, re.MULTILINE)
+        if not match_key:
             missing.append(key)
+        else:
+            value = match_key.group(1).strip()
+            if key == "trigger" and value not in ["always_on", "manual", "model_decision"]:
+                return False, f"Invalid value '{value}' for trigger. Must be always_on, manual, or model_decision."
             
     if missing:
         return False, f"Missing required frontmatter keys: {', '.join(missing)}"

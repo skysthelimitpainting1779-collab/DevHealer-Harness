@@ -45,7 +45,8 @@
       "args": [
         "c:/Users/Johnny Cage/ITS/.agents/plugins/dev-healer/hooks/schema-validator.py"
       ],
-      "timeout": 5
+      "timeout": 5,
+      "matcher": "*"
     }
   ]
 }
