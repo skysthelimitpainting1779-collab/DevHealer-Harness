@@ -1,0 +1,38 @@
+
+--- ANOMALY DETECTED ---
+Command: node --check src/main.js
+Exit Code: 1
+Stderr:
+node:internal/modules/package_json_reader:208
+  const result = modulesBinding.getPackageScopeConfig(`${resolved}`);
+                                ^
+
+Error: Invalid package config C:\Users\Johnny Cage\ITS\package.json.
+    at getPackageScopeConfig (node:internal/modules/package_json_reader:208:33)
+    at Object.getFileProtocolModuleFormat [as file:] (node:internal/modules/esm/get_format:116:72)
+    at defaultGetFormatWithoutErrors (node:internal/modules/esm/get_format:232:36)
+    at defaultResolve (node:internal/modules/esm/resolve:1009:13)
+    at checkSyntax (node:internal/main/check_syntax:68:27)
+    at node:internal/main/check_syntax:40:25
+    at loadESMIfNeeded (node:internal/main/check_syntax:56:3)
+    at node:internal/main/check_syntax:40:3 {
+  code: 'ERR_INVALID_PACKAGE_CONFIG'
+}
+
+Node.js v22.22.3
+
+
+--- ANOMALY DETECTED ---
+Command: node --check src/main.js
+Exit Code: 1
+Stderr:
+C:\Users\Johnny Cage\ITS\src\main.js:1
+��f
+
+
+SyntaxError: Invalid or unexpected token
+    at wrapSafe (node:internal/modules/cjs/loader:1713:18)
+    at checkSyntax (node:internal/main/check_syntax:78:3)
+
+Node.js v22.22.3
+
