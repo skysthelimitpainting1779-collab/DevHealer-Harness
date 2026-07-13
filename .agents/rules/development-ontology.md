@@ -1,3 +1,8 @@
+---
+name: development-ontology
+description: development-ontology rule
+---
+
 # Workspace Guidelines & Anomaly Ontology
 This rule is Always-On and enforces project integrity guidelines for all developer agents.
 
