@@ -1,20 +1,43 @@
 {
-  "PreToolUse": [
-    {
-      "command": "python .agents/scripts/pre-tool-use.py",
-      "timeout": 15
-    }
-  ],
-  "PostToolUse": [
-    {
-      "command": "python .agents/scripts/post-tool-use.py",
-      "timeout": 15
-    }
-  ],
-  "Stop": [
-    {
-      "command": "python .agents/scripts/stop-handler.py",
-      "timeout": 15
-    }
-  ]
+  "memory-retrieval": {
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "python",
+        "args": [
+          "c:\\Users\\Johnny Cage\\ITS\\.agents\\hooks\\preinv_memory_retrieve.py"
+        ],
+        "timeout": 10
+      }
+    ]
+  },
+  "episodic-capture": {
+    "PostToolUse": [
+      {
+        "matcher": "run_command|write_to_file|invoke_subagent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python",
+            "args": [
+              "c:\\Users\\Johnny Cage\\ITS\\.agents\\hooks\\posttool_episodic_capture.py"
+            ],
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "stop-reflection": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "python",
+        "args": [
+          "c:\\Users\\Johnny Cage\\ITS\\.agents\\hooks\\stop_reflect_on_failure.py"
+        ],
+        "timeout": 15
+      }
+    ]
+  }
 }

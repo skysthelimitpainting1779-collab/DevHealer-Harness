@@ -2,45 +2,47 @@ import sys
 import json
 import os
 
-def log(msg):
-    sys.stderr.write(f"[Sensation Log] {msg}\n")
-
 def main():
     try:
+        # 1. Read input payload from Antigravity stdin
         input_data = json.load(sys.stdin)
-        log("Analyzing PostToolUse execution result.")
-        
         error_msg = input_data.get("error", "")
         
-        if error_msg:
-            log(f"Tool error intercepted: {error_msg}")
+        # 2. Resolve secure AppData path
+        data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
+        if not data_dir:
+            print("{}")
+            sys.exit(0)
             
-            # Resolve git-immune secure AppData path dynamically
-            data_dir = os.environ.get("ANTIGRAVITY_EXECUTABLE_DATA_DIR")
-            if not data_dir:
-                user_profile = os.environ.get("USERPROFILE", "C:\\Users\\Johnny Cage")
-                data_dir = os.path.join(user_profile, ".gemini", "antigravity", "sidecar_data", "dev-healer", "data")
+        state_file = os.path.join(data_dir, "healing-state.json")
+        
+        # 3. If a tool call actually failed, write the real error to disk
+        if error_msg:
+            state = {}
+            if os.path.exists(state_file):
+                try:
+                    with open(state_file, "r") as f:
+                        state = json.load(f)
+                except Exception:
+                    pass
+            
+            # Save the raw crash details captured directly from the execution tool
+            state["activeAnomaly"] = "ToolFailure"
+            state["errorDetails"] = error_msg
+            state["status"] = "active"
+            state["retryCount"] = state.get("retryCount", 0)
             
             os.makedirs(data_dir, exist_ok=True)
-            state_path = os.path.join(data_dir, "healing-state.json")
-            
-            state = {
-                "activeAnomaly": "ToolFailure",
-                "errorDetails": error_msg,
-                "status": "active",
-                "retryCount": 0
-            }
-            
-            with open(state_path, "w") as f:
+            with open(state_file, "w") as f:
                 json.dump(state, f, indent=2)
-            log(f"Anomaly successfully registered in system cache: {state_path}")
-            
-        sys.stdout.write(json.dumps({}))
-        sys.stdout.flush()
+                
+        # Return empty JSON to conform to PostToolUse contract
+        print("{}")
+        sys.exit(0)
     except Exception as e:
-        log(f"Sensation module execution error: {str(e)}")
-        sys.stdout.write(json.dumps({}))
-        sys.stdout.flush()
+        sys.stderr.write(f"PostToolUse Hook Error: {e}\n")
+        print("{}")
+        sys.exit(0)
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,120 @@
+{
+  "communities": {
+    "0": [
+      "setup",
+      "setup_init_git",
+      "setup_log",
+      "setup_scaffold_directories",
+      "setup_write_assets"
+    ],
+    "1": [
+      "agents_scripts_post_tool_use",
+      "agents_scripts_post_tool_use_log",
+      "agents_scripts_post_tool_use_main"
+    ],
+    "2": [
+      "agents_scripts_pre_tool_use",
+      "agents_scripts_pre_tool_use_main",
+      "agents_scripts_pre_tool_use_normalize_windows_path"
+    ],
+    "3": [
+      "run_tests_hardened",
+      "run_tests_hardened_kill_child_processes",
+      "run_tests_hardened_rationale_6"
+    ],
+    "4": [
+      "sidecars_watcher_watcher",
+      "sidecars_watcher_watcher_log",
+      "sidecars_watcher_watcher_main"
+    ],
+    "5": [
+      "agents_scripts_stop_handler",
+      "agents_scripts_stop_handler_main"
+    ],
+    "6": [
+      "scripts_sdk_agent_healer",
+      "scripts_sdk_agent_healer_main"
+    ],
+    "7": [
+      "deploy_global"
+    ],
+    "8": [
+      "index"
+    ],
+    "9": [
+      "test_harness"
+    ]
+  },
+  "cohesion": {
+    "0": 0.7,
+    "1": 1.0,
+    "2": 1.0,
+    "3": 0.6666666666666666,
+    "4": 1.0,
+    "5": 1.0,
+    "6": 1.0,
+    "7": 1.0,
+    "8": 1.0,
+    "9": 1.0
+  },
+  "gods": [
+    {
+      "id": "setup_log",
+      "label": "log()",
+      "degree": 4
+    },
+    {
+      "id": "agents_scripts_post_tool_use_log",
+      "label": "log()",
+      "degree": 2
+    },
+    {
+      "id": "agents_scripts_post_tool_use_main",
+      "label": "main()",
+      "degree": 2
+    },
+    {
+      "id": "agents_scripts_pre_tool_use_normalize_windows_path",
+      "label": "normalize_windows_path()",
+      "degree": 2
+    },
+    {
+      "id": "agents_scripts_pre_tool_use_main",
+      "label": "main()",
+      "degree": 2
+    },
+    {
+      "id": "run_tests_hardened_kill_child_processes",
+      "label": "kill_child_processes()",
+      "degree": 2
+    },
+    {
+      "id": "setup_init_git",
+      "label": "init_git()",
+      "degree": 2
+    },
+    {
+      "id": "setup_scaffold_directories",
+      "label": "scaffold_directories()",
+      "degree": 2
+    },
+    {
+      "id": "setup_write_assets",
+      "label": "write_assets()",
+      "degree": 2
+    },
+    {
+      "id": "sidecars_watcher_watcher_log",
+      "label": "log()",
+      "degree": 2
+    }
+  ],
+  "surprises": [],
+  "questions": [
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `Recursively sweep and kill all descendant processes under Windows 10.` to the rest of the system?",
+      "why": "1 weakly-connected nodes found - possible documentation gaps or missing edges."
+    }
+  ]
+}

@@ -20,3 +20,16 @@ def kill_child_processes(parent_pid):
         print(f"Process sweep warning: {e}")
 
 print("Process Tree Sweeper Module successfully initialized!")
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) > 1:
+        cmd = sys.argv[1:]
+        proc = None
+        try:
+            proc = subprocess.Popen(cmd)
+            proc.wait()
+            sys.exit(proc.returncode)
+        finally:
+            if proc:
+                kill_child_processes(proc.pid)

@@ -1,0 +1,457 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "post-tool-use.py",
+      "file_type": "code",
+      "source_file": ".agents/scripts/post-tool-use.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_scripts_post_tool_use",
+      "community": 1,
+      "norm_label": "post-tool-use.py"
+    },
+    {
+      "label": "log()",
+      "file_type": "code",
+      "source_file": ".agents/scripts/post-tool-use.py",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "agents_scripts_post_tool_use_log",
+      "community": 1,
+      "norm_label": "log()"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": ".agents/scripts/post-tool-use.py",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "agents_scripts_post_tool_use_main",
+      "community": 1,
+      "norm_label": "main()"
+    },
+    {
+      "label": "pre-tool-use.py",
+      "file_type": "code",
+      "source_file": ".agents/scripts/pre-tool-use.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_scripts_pre_tool_use",
+      "community": 2,
+      "norm_label": "pre-tool-use.py"
+    },
+    {
+      "label": "normalize_windows_path()",
+      "file_type": "code",
+      "source_file": ".agents/scripts/pre-tool-use.py",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "agents_scripts_pre_tool_use_normalize_windows_path",
+      "community": 2,
+      "norm_label": "normalize_windows_path()"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": ".agents/scripts/pre-tool-use.py",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "agents_scripts_pre_tool_use_main",
+      "community": 2,
+      "norm_label": "main()"
+    },
+    {
+      "label": "stop-handler.py",
+      "file_type": "code",
+      "source_file": ".agents/scripts/stop-handler.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_scripts_stop_handler",
+      "community": 5,
+      "norm_label": "stop-handler.py"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": ".agents/scripts/stop-handler.py",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "agents_scripts_stop_handler_main",
+      "community": 5,
+      "norm_label": "main()"
+    },
+    {
+      "label": "deploy_global.ps1",
+      "file_type": "code",
+      "source_file": "deploy_global.ps1",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "deploy_global",
+      "community": 7,
+      "norm_label": "deploy_global.ps1"
+    },
+    {
+      "label": "index.js",
+      "file_type": "code",
+      "source_file": "index.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "index",
+      "community": 8,
+      "norm_label": "index.js"
+    },
+    {
+      "label": "run_tests_hardened.py",
+      "file_type": "code",
+      "source_file": "run_tests_hardened.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "run_tests_hardened",
+      "community": 3,
+      "norm_label": "run_tests_hardened.py"
+    },
+    {
+      "label": "kill_child_processes()",
+      "file_type": "code",
+      "source_file": "run_tests_hardened.py",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "run_tests_hardened_kill_child_processes",
+      "community": 3,
+      "norm_label": "kill_child_processes()"
+    },
+    {
+      "label": "Recursively sweep and kill all descendant processes under Windows 10.",
+      "file_type": "rationale",
+      "source_file": "run_tests_hardened.py",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "run_tests_hardened_rationale_6",
+      "community": 3,
+      "norm_label": "recursively sweep and kill all descendant processes under windows 10."
+    },
+    {
+      "label": "sdk_agent_healer.py",
+      "file_type": "code",
+      "source_file": "scripts/sdk_agent_healer.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_sdk_agent_healer",
+      "community": 6,
+      "norm_label": "sdk_agent_healer.py"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "scripts/sdk_agent_healer.py",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "scripts_sdk_agent_healer_main",
+      "community": 6,
+      "norm_label": "main()"
+    },
+    {
+      "label": "setup.py",
+      "file_type": "code",
+      "source_file": "setup.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "setup",
+      "community": 0,
+      "norm_label": "setup.py"
+    },
+    {
+      "label": "log()",
+      "file_type": "code",
+      "source_file": "setup.py",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "setup_log",
+      "community": 0,
+      "norm_label": "log()"
+    },
+    {
+      "label": "init_git()",
+      "file_type": "code",
+      "source_file": "setup.py",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "setup_init_git",
+      "community": 0,
+      "norm_label": "init_git()"
+    },
+    {
+      "label": "scaffold_directories()",
+      "file_type": "code",
+      "source_file": "setup.py",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "setup_scaffold_directories",
+      "community": 0,
+      "norm_label": "scaffold_directories()"
+    },
+    {
+      "label": "write_assets()",
+      "file_type": "code",
+      "source_file": "setup.py",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "setup_write_assets",
+      "community": 0,
+      "norm_label": "write_assets()"
+    },
+    {
+      "label": "watcher.py",
+      "file_type": "code",
+      "source_file": "sidecars/watcher/watcher.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "sidecars_watcher_watcher",
+      "community": 4,
+      "norm_label": "watcher.py"
+    },
+    {
+      "label": "log()",
+      "file_type": "code",
+      "source_file": "sidecars/watcher/watcher.py",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "sidecars_watcher_watcher_log",
+      "community": 4,
+      "norm_label": "log()"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "sidecars/watcher/watcher.py",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "sidecars_watcher_watcher_main",
+      "community": 4,
+      "norm_label": "main()"
+    },
+    {
+      "label": "test_harness.ps1",
+      "file_type": "code",
+      "source_file": "test_harness.ps1",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "test_harness",
+      "community": 9,
+      "norm_label": "test_harness.ps1"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/scripts/post-tool-use.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "agents_scripts_post_tool_use",
+      "target": "agents_scripts_post_tool_use_log",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/scripts/post-tool-use.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "agents_scripts_post_tool_use",
+      "target": "agents_scripts_post_tool_use_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/scripts/post-tool-use.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "agents_scripts_post_tool_use_main",
+      "target": "agents_scripts_post_tool_use_log",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/scripts/pre-tool-use.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "agents_scripts_pre_tool_use",
+      "target": "agents_scripts_pre_tool_use_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/scripts/pre-tool-use.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "agents_scripts_pre_tool_use",
+      "target": "agents_scripts_pre_tool_use_normalize_windows_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/scripts/pre-tool-use.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "agents_scripts_pre_tool_use_main",
+      "target": "agents_scripts_pre_tool_use_normalize_windows_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/scripts/stop-handler.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "agents_scripts_stop_handler",
+      "target": "agents_scripts_stop_handler_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "run_tests_hardened.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "run_tests_hardened",
+      "target": "run_tests_hardened_kill_child_processes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "run_tests_hardened.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "run_tests_hardened_rationale_6",
+      "target": "run_tests_hardened_kill_child_processes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/sdk_agent_healer.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "scripts_sdk_agent_healer",
+      "target": "scripts_sdk_agent_healer_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "setup",
+      "target": "setup_init_git",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "setup",
+      "target": "setup_log",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "setup",
+      "target": "setup_scaffold_directories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.py",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "setup",
+      "target": "setup_write_assets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "setup_init_git",
+      "target": "setup_log",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "setup_scaffold_directories",
+      "target": "setup_log",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.py",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "setup_write_assets",
+      "target": "setup_log",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "sidecars/watcher/watcher.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "sidecars_watcher_watcher",
+      "target": "sidecars_watcher_watcher_log",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "sidecars/watcher/watcher.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "sidecars_watcher_watcher",
+      "target": "sidecars_watcher_watcher_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "sidecars/watcher/watcher.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "sidecars_watcher_watcher_main",
+      "target": "sidecars_watcher_watcher_log",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "d4b2bbb3b2c51e183992da35425e3773cf8e4c38"
+}

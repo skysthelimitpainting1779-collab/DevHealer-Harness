@@ -1,0 +1,1 @@
+# SDK memory curator script\n
