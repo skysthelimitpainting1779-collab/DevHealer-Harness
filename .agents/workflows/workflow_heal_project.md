@@ -19,10 +19,15 @@ description: Build and heal project anomalies automatically
 *   Prepend compile & test runs using our Windows-safe process tree sweeper:
     `python run_tests_hardened.py <your-test-or-build-command>`
 
-## Step 4: Resolve Anomaly
+## Step 4: Proactive Evaluation Gate (Devil's Advocate)
+*   Before applying any fix, evaluate the theoretical blast radius.
+*   If there are ANY engineering trade-offs (e.g., bypassing linter rules, tech debt), you MUST spawn the `devils-advocate` subagent for adversarial red-teaming.
+*   Only proceed to resolution if `devils-advocate` explicitly approves or the fix has strictly positive effects.
+
+## Step 5: Resolve Anomaly
 *   Let the subagent resolve database schemas, linter bugs, or compile conflicts.
 *   Validate the fix using the `run_tests_hardened.py` wrapper to prevent background process locking.
 
-## Step 5: Merge & Evolve Rules
+## Step 6: Merge & Evolve Rules
 *   Cleanly teardown the worktree.
 *   Write lessons learned to `.agents/rules/development-ontology.md` following our rewrite-in-place compacting policy to stay strictly under the 12,000-character cap.
